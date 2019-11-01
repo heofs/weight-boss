@@ -4,79 +4,80 @@ import { useAuth } from "enhancers/useAuth";
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-  const data = useFirestoreDb();
-  return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
+    const data = useFirestoreDb();
+    return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
 };
 
 function useFirestoreDb() {
-  const { user } = useAuth();
-  const [weightData, setWeightData] = useState([]);
-  const [token, setToken] = useState();
-  //   if (token) {
-  //     console.log(token);
-  //   }
-  const headers = new Headers({
-    Accept: "application/json",
-    Authorization: "Bearer " + token,
-    "Content-Type": "application/json"
-  });
-  const mode = "cors";
-  const baseUrl = "http://localhost:8080/api/";
-
-  const addWeight = async (weight, dateTime) => {
-    const addWeightUrl = baseUrl + "addWeight";
-    const bodyData = { weight, dateTime };
-
-    const rawResponse = await fetch(addWeightUrl, {
-      method: "POST",
-      mode, // no-cors, *cors, same-origin
-      headers: headers,
-      body: JSON.stringify(bodyData)
+    const { user } = useAuth();
+    const [weightData, setWeightData] = useState([]);
+    const [token, setToken] = useState();
+    //   if (token) {
+    //     console.log(token);
+    //   }
+    const headers = new Headers({
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
     });
-    const content = await rawResponse.json();
-    setWeightData([...weightData, content]);
-    return content;
-  };
+    const mode = "cors";
+    const baseUrl = "http://localhost:8080/api/";
 
-  const getData = async () => {
-    const getDataUrl = baseUrl + "getData";
-    const rawResponse = await fetch(getDataUrl, {
-      method: "GET",
-      mode, // no-cors, *cors, same-origin
-      headers
-    });
-    const data = await rawResponse.json();
-    console.log(data);
-    setWeightData(data);
-    return data;
-  };
+    const addWeight = async (weight, dateTime) => {
+        const addWeightUrl = baseUrl + "addWeight";
+        const bodyData = { weight, dateTime };
 
-  const deleteWeight = async id => {
-    const deleteWeightUrl = baseUrl + "deleteWeight";
-    const rawResponse = await fetch(deleteWeightUrl, {
-      method: "DELETE",
-      mode, // no-cors, *cors, same-origin
-      headers,
-      body: JSON.stringify({ id })
-    });
-    const data = await rawResponse.json();
-    const newWeightData = weightData.filter(row => row.id !== id);
-    setWeightData(newWeightData);
-    return data;
-  };
+        const rawResponse = await fetch(addWeightUrl, {
+            method: "POST",
+            mode, // no-cors, *cors, same-origin
+            headers: headers,
+            body: JSON.stringify(bodyData)
+        });
+        const content = await rawResponse.json();
+        setWeightData([...weightData, content]);
+        return content;
+    };
 
-  useEffect(() => {
-    setToken(user && user.ma);
-    if (token) {
-      setWeightData(getData());
-    }
-  }, [user, token]);
+    const deleteWeight = async id => {
+        const deleteWeightUrl = baseUrl + "deleteWeight";
+        const rawResponse = await fetch(deleteWeightUrl, {
+            method: "DELETE",
+            mode, // no-cors, *cors, same-origin
+            headers,
+            body: JSON.stringify({ id })
+        });
+        const data = await rawResponse.json();
+        const newWeightData = weightData.filter(row => row.id !== id);
+        setWeightData(newWeightData);
+        return data;
+    };
 
-  return {
-    weightData,
-    addWeight,
-    deleteWeight
-  };
+    useEffect(() => {
+        setToken(user && user.ma);
+        if (token) {
+            (async () => {
+                const getDataUrl = baseUrl + "getData";
+                const rawResponse = await fetch(getDataUrl, {
+                    method: "GET",
+                    mode: "cors", // no-cors, *cors, same-origin
+                    headers: new Headers({
+                        Accept: "application/json",
+                        Authorization: "Bearer " + token,
+                        "Content-Type": "application/json"
+                    })
+                });
+                const data = await rawResponse.json();
+                console.log(data);
+                setWeightData(data);
+            })();
+        }
+    }, [user, token]);
+
+    return {
+        weightData,
+        addWeight,
+        deleteWeight
+    };
 }
 
 export const useFirestore = () => useContext(DataContext);
