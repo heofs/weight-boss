@@ -32,8 +32,8 @@ function useFirestoreDb() {
       headers,
       body: JSON.stringify(bodyData),
     });
-    setWeightData([...weightData, content]);
     const content = await rawResponse.json();
+    setWeightData([...weightData, content]);
     return content;
   };
 
