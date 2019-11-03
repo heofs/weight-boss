@@ -21,10 +21,11 @@ function useFirestoreDb() {
         "Content-Type": "application/json"
     });
     const mode = "cors";
-    const baseUrl = "http://localhost:8080/api/";
+    const baseUrl = process.env.REACT_APP_API_URL;
+    console.log("Using baseUrl: ", baseUrl);
 
     const addWeight = async (weight, dateTime) => {
-        const addWeightUrl = baseUrl + "addWeight";
+        const addWeightUrl = baseUrl + "/addWeight";
         const bodyData = { weight, dateTime };
 
         const rawResponse = await fetch(addWeightUrl, {
@@ -39,7 +40,7 @@ function useFirestoreDb() {
     };
 
     const deleteWeight = async id => {
-        const deleteWeightUrl = baseUrl + "deleteWeight";
+        const deleteWeightUrl = baseUrl + "/deleteWeight";
         const rawResponse = await fetch(deleteWeightUrl, {
             method: "DELETE",
             mode, // no-cors, *cors, same-origin
@@ -56,10 +57,10 @@ function useFirestoreDb() {
         setToken(user && user.ma);
         if (token) {
             (async () => {
-                const getDataUrl = baseUrl + "getData";
+                const getDataUrl = baseUrl + "/getData";
                 const rawResponse = await fetch(getDataUrl, {
                     method: "GET",
-                    mode: "cors", // no-cors, *cors, same-origin
+                    mode, // no-cors, *cors, same-origin
                     headers: new Headers({
                         Accept: "application/json",
                         Authorization: "Bearer " + token,
