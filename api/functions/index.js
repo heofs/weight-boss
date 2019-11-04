@@ -19,7 +19,6 @@ const app = express();
 // when decoded successfully, the ID Token content will be added as `req.user`.
 const authenticate = async (req, res, next) => {
   console.log('Authenticating... ');
-
   if (
     !req.headers.authorization ||
     !req.headers.authorization.startsWith('Bearer ')
@@ -61,16 +60,14 @@ app.post('/addWeight', async (req, res) => {
   const { weight: rawWeight, dateTime } = req.body;
 
   if (!rawWeight || !dateTime) {
-    console.log('No weight or dateTime found in body!');
-    return;
+    throw new Error('No weight or dateTime found in body!');
   }
 
   const weight = parseFloat(rawWeight);
-  const jsDate = new Date(dateTime);
-  const jsTimestamp = jsDate.getTime();
-  const timestamp = jsTimestamp / 1000;
-  const nanoSeconds = parseInt(jsTimestamp.toString().slice(-3));
-  const firestoreTime = new admin.firestore.Timestamp(timestamp, nanoSeconds);
+
+  const seconds = parseInt(dateTime / 1000);
+  const milliSeconds = parseInt(dateTime.toString().slice(-3));
+  const firestoreTime = new admin.firestore.Timestamp(seconds, milliSeconds);
 
   try {
     const writeResult = await admin
@@ -82,7 +79,7 @@ app.post('/addWeight', async (req, res) => {
     res.status(201).json({
       id: writeResult.id,
       weight,
-      dateTime: jsDate,
+      dateTime,
     });
   } catch (error) {
     console.log('Error detecting sentiment or saving message', error.message);
@@ -108,12 +105,11 @@ app.get('/getData', async (req, res) => {
         const data = [];
         snapshot.forEach(doc => {
           const parsedDoc = doc.data();
-          const dateTime = new Date(parsedDoc.dateTime._seconds * 1000);
-
+          const timestamp = parseInt(parsedDoc.dateTime._seconds * 1000);
           data.push({
             id: doc.id,
             weight: parsedDoc.weight,
-            dateTime,
+            dateTime: timestamp,
           });
         });
         return res.status(200).json(data);

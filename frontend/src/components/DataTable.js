@@ -3,6 +3,7 @@ import React from 'react';
 import { useFirestore } from 'enhancers/useFirestore';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+import dayjs from 'dayjs';
 
 const DataTable = props => {
   const { weightData, deleteWeight } = useFirestore();
@@ -14,12 +15,17 @@ const DataTable = props => {
   const columns = [
     {
       Header: 'Weight',
-      accessor: 'weight', // String-based value accessors!
+      accessor: 'weight',
     },
     {
       Header: 'Time',
       accessor: 'dateTime',
-      Cell: props => <span className="number">{props.value}</span>, // Custom cell components!
+      minWidth: 200,
+      Cell: props => (
+        <span className="number">
+          {dayjs(props.value).format('DD-MM-YYYY - HH:mm')}
+        </span>
+      ),
     },
     {
       Header: 'Actions',

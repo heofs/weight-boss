@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useFirestore } from 'enhancers/useFirestore';
-import moment from 'moment';
 import SubmitButton from './SubmitButton';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { ReactComponent as Box } from 'images/box.svg';
+import ImageInput from './ImageInput';
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,25 +18,18 @@ const Input = styled.input`
 
 const FlexRow = styled.div`
   display: flex;
+  max-width: 100vw;
 `;
-
-const InputGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-// const timeNow = () => moment().format('YYYY-MM-DDTHH:mm');
 
 const InputForm = () => {
   const { addWeight } = useFirestore();
   const [weight, setWeight] = useState('');
   const [dateTime, setDateTime] = useState(new Date());
-  //   const dateTime = () => '12';
+
   return (
     <Wrapper>
       <FlexRow>
-        <InputGroup>
-          <label htmlFor="weightId">Your weight</label>
+        <ImageInput icon={Box}>
           <Input
             type="number"
             name="weight"
@@ -44,16 +38,14 @@ const InputForm = () => {
             value={weight}
             onChange={event => setWeight(event.target.value)}
           />
-        </InputGroup>
-        <InputGroup>
-          <label htmlFor="dateId">Date</label>
+        </ImageInput>
+        <ImageInput icon={Box}>
           <DatePicker
             selected={dateTime}
             onChange={dateTime => setDateTime(dateTime)}
           />
-        </InputGroup>
-        <InputGroup>
-          <label htmlFor="timeId">Time</label>
+        </ImageInput>
+        <ImageInput icon={Box}>
           <DatePicker
             selected={dateTime}
             onChange={dateTime => setDateTime(dateTime)}
@@ -63,17 +55,10 @@ const InputForm = () => {
             timeCaption="Time"
             dateFormat="h:mm aa"
           />
-        </InputGroup>
+        </ImageInput>
       </FlexRow>
-      {/* <button onClick={() => setInputs({ ...inputs, dateTime: timeNow() })}>
-        Set time now
-      </button> */}
-      <SubmitButton
-        onClick={() => {
-          console.log({ weight, dateTime });
-          addWeight(weight, dateTime);
-        }}
-      >
+
+      <SubmitButton onClick={() => addWeight(weight, dateTime.getTime())}>
         Submit weight
       </SubmitButton>
     </Wrapper>

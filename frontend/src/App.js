@@ -20,6 +20,8 @@ const Wrapper = styled.div`
   align-items: center;
   /* min-height: 100vh; */
   font-size: calc(10px + 2vmin);
+  width: 30em;
+  margin: 0 auto;
 `;
 
 const App = () => {

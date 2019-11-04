@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from 'enhancers/useAuth';
+import firebase from 'utils/firebase';
 
 export const DataContext = createContext();
 
@@ -14,47 +15,50 @@ const baseUrl = process.env.REACT_APP_API_URL;
 function useFirestoreDb() {
   const { user } = useAuth();
   const [weightData, setWeightData] = useState([]);
-  const [token, setToken] = useState();
-
-  const headers = new Headers({
-    Accept: 'application/json',
-    Authorization: 'Bearer ' + token,
-    'Content-Type': 'application/json',
-  });
 
   const addWeight = async (weight, dateTime) => {
+    const token = await firebase.auth().currentUser.getIdToken();
     const addWeightUrl = baseUrl + '/addWeight';
     const bodyData = { weight, dateTime };
 
-    const rawResponse = await fetch(addWeightUrl, {
+    fetch(addWeightUrl, {
       method: 'POST',
       mode,
-      headers,
+      headers: new Headers({
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      }),
       body: JSON.stringify(bodyData),
+    }).then(async (res) => {
+      const json = await res.json();
+      setWeightData([...weightData, json]);
     });
-    const content = await rawResponse.json();
-    setWeightData([...weightData, content]);
-    return content;
   };
 
-  const deleteWeight = async id => {
+  const deleteWeight = async (id) => {
+    const token = await firebase.auth().currentUser.getIdToken();
     const deleteWeightUrl = baseUrl + '/deleteWeight';
     const rawResponse = await fetch(deleteWeightUrl, {
       method: 'DELETE',
       mode,
-      headers,
+      headers: new Headers({
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      }),
       body: JSON.stringify({ id }),
     });
-    const newWeightData = weightData.filter(row => row.id !== id);
+    const newWeightData = weightData.filter((row) => row.id !== id);
     setWeightData(newWeightData);
     const data = await rawResponse.json();
     return data;
   };
 
   useEffect(() => {
-    setToken(user && user.ma);
-    if (token) {
+    if (user && user.ma && !weightData.length) {
       (async () => {
+        const token = await firebase.auth().currentUser.getIdToken();
         const getDataUrl = baseUrl + '/getData';
         const rawResponse = await fetch(getDataUrl, {
           method: 'GET',
@@ -69,7 +73,7 @@ function useFirestoreDb() {
         setWeightData(data);
       })();
     }
-  }, [user, token]);
+  }, [user, weightData]);
 
   return {
     weightData,

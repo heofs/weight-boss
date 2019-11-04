@@ -13,21 +13,21 @@ function useFirebaseAuth() {
   const auth = firebase.auth();
 
   const signin = (email, password) => {
-    return auth.signInWithEmailAndPassword(email, password).then(response => {
+    return auth.signInWithEmailAndPassword(email, password).then((response) => {
       setUser(response.user);
       return response.user;
     });
   };
 
   const signup = (email, password, displayName) => {
-    return auth.createUserWithEmailAndPassword(email, password).then(res => {
+    return auth.createUserWithEmailAndPassword(email, password).then((res) => {
       const user = res.user;
       setUser(user);
       user
         .updateProfile({
           displayName: displayName,
         })
-        .then(e => {
+        .then((e) => {
           setUser({ ...user, displayName: displayName });
         });
       return user;
@@ -40,7 +40,7 @@ function useFirebaseAuth() {
       .then(() => {
         return signin(email, password);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error.message);
       });
     return newSignin;
@@ -55,15 +55,15 @@ function useFirebaseAuth() {
   const signinGoogle = () => {
     auth
       .signInWithPopup(googleProvider)
-      .then(res => {
+      .then((res) => {
         // console.log(result.credential.accessToken);
         setUser(res.user);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error.message);
       });
   };
-  const sendPasswordResetEmail = email => {
+  const sendPasswordResetEmail = (email) => {
     return auth.sendPasswordResetEmail(email).then(() => {
       return true;
     });
@@ -76,7 +76,7 @@ function useFirebaseAuth() {
   };
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
       } else {
