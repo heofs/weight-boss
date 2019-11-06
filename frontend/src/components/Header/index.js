@@ -39,7 +39,7 @@ const Header = () => {
           <LogOutButton onClick={() => signout()}>Log out</LogOutButton>
         </LogOutContainer>
       )}
-      <LogoText>Weight Boss</LogoText>
+      {/* <LogoText>Weight Boss</LogoText> */}
     </Wrapper>
   );
 };

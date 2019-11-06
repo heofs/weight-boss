@@ -13,10 +13,48 @@ const express = require('express');
 const cors = require('cors')({ origin: true });
 const app = express();
 
-// Express middleware that validates Firebase ID Tokens passed in the Authorization HTTP header.
-// The Firebase ID token needs to be passed as a Bearer token in the Authorization HTTP header like this:
-// `Authorization: Bearer <Firebase ID Token>`.
-// when decoded successfully, the ID Token content will be added as `req.user`.
+const limitRequests = async (req, res, next) => {
+  const userId = req.user.uid;
+
+  try {
+    const unixNow = parseInt(new Date().getTime() / 1000);
+    const timeRange = 10 * 60;
+    const queryTime = new admin.firestore.Timestamp(unixNow - timeRange, 0);
+
+    // Add request to db
+    admin
+      .firestore()
+      .collection('requests')
+      .add({ userId, dateTime: admin.firestore.Timestamp.now() });
+
+    await admin
+      .firestore()
+      .collection('requests')
+      .where('userId', '==', userId)
+      .where('dateTime', '>', queryTime)
+      .get()
+      .then((snapshot) => {
+        const data = [];
+        if (snapshot.empty) {
+          next();
+          return;
+        }
+        snapshot.forEach((doc) => data.push({ id: doc.id }));
+        if (data.length > 100) {
+          throw new Error('Too many requests');
+        }
+        next();
+        return;
+      })
+      .catch((err) => {
+        console.log('Error getting documents', err);
+      });
+  } catch (error) {
+    console.log('Error: ', error.message);
+    res.status(429).send('Too many requests');
+  }
+};
+
 const authenticate = async (req, res, next) => {
   console.log('Authenticating... ');
   if (
@@ -32,7 +70,7 @@ const authenticate = async (req, res, next) => {
     await admin
       .auth()
       .verifyIdToken(idToken)
-      .then(decodedIdToken => {
+      .then((decodedIdToken) => {
         req.user = decodedIdToken;
         next();
         return;
@@ -53,10 +91,10 @@ app.get('/status', async (req, res) => {
 });
 
 app.use(authenticate);
+app.use(limitRequests);
 
 app.post('/addWeight', async (req, res) => {
   const userId = req.user.uid;
-  console.log('userId: ', userId);
   const { weight: rawWeight, dateTime } = req.body;
 
   if (!rawWeight || !dateTime) {
@@ -89,21 +127,18 @@ app.post('/addWeight', async (req, res) => {
 
 app.get('/getData', async (req, res) => {
   const userId = req.user.uid;
-  console.log('userId: ', userId);
-
   try {
     await admin
       .firestore()
       .collection('data')
       .where('userId', '==', userId)
       .get()
-      .then(snapshot => {
-        if (snapshot.empty) {
-          throw new Error('Found no documents.');
-        }
-
+      .then((snapshot) => {
         const data = [];
-        snapshot.forEach(doc => {
+        if (snapshot.empty) {
+          return data;
+        }
+        snapshot.forEach((doc) => {
           const parsedDoc = doc.data();
           const timestamp = parseInt(parsedDoc.dateTime._seconds * 1000);
           data.push({
@@ -114,7 +149,7 @@ app.get('/getData', async (req, res) => {
         });
         return res.status(200).json(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('Error getting documents', err);
       });
   } catch (error) {
@@ -126,21 +161,27 @@ app.get('/getData', async (req, res) => {
 app.delete('/deleteWeight', async (req, res) => {
   const userId = req.user.uid;
   const targetDocId = req.body.id;
-  console.log('userId: ', userId);
 
   try {
-    const writeResult = await admin
+    const docRef = await admin
       .firestore()
       .collection('data')
       .doc(targetDocId)
-      .delete();
+      .get();
+    const docData = docRef.data();
 
-    console.log('deleted: ', writeResult.id);
+    const targetDocUid = docData.userId;
+    if (userId !== targetDocUid) {
+      throw new Error('You dont have permission to delete this.');
+    }
+
+    docRef.ref.delete();
+
     res.status(201).json({
-      id: writeResult.id,
+      id: docData.id,
     });
   } catch (error) {
-    console.log('Error detecting sentiment or saving message', error.message);
+    console.log('Error when deleting: ', error.message);
     res.sendStatus(500);
   }
 });
