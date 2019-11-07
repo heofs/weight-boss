@@ -17,8 +17,10 @@ const limitRequests = async (req, res, next) => {
   const userId = req.user.uid;
 
   try {
+    const minuteRange = 1;
+    const requestAmount = 5;
     const unixNow = parseInt(new Date().getTime() / 1000);
-    const timeRange = 10 * 60;
+    const timeRange = minuteRange * 60;
     const queryTime = new admin.firestore.Timestamp(unixNow - timeRange, 0);
 
     // Add request to db
@@ -40,7 +42,7 @@ const limitRequests = async (req, res, next) => {
           return;
         }
         snapshot.forEach((doc) => data.push({ id: doc.id }));
-        if (data.length > 100) {
+        if (data.length > requestAmount) {
           throw new Error('Too many requests');
         }
         next();
