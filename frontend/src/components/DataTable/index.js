@@ -1,11 +1,14 @@
 import React from 'react';
-// import PropTypes from "prop-types";
-import { useFirestore } from 'enhancers/useFirestore';
-import ReactTable from 'react-table';
-import 'react-table/react-table.css';
 import dayjs from 'dayjs';
+import ReactTable from 'react-table';
 
-const DataTable = props => {
+import { useFirestore } from 'enhancers/useFirestore';
+
+import ButtonDelete from './ButtonDelete';
+
+import 'react-table/react-table.css';
+
+const DataTable = (props) => {
   const { weightData, deleteWeight } = useFirestore();
 
   if (!weightData || weightData.length < 1 || weightData.length === undefined) {
@@ -16,14 +19,15 @@ const DataTable = props => {
     {
       Header: 'Weight',
       accessor: 'weight',
+      width: 70,
     },
     {
       Header: 'Time',
       accessor: 'dateTime',
-      minWidth: 200,
-      Cell: props => (
+      minWidth: 145,
+      Cell: (props) => (
         <span className="number">
-          {dayjs(props.value).format('DD-MM-YYYY - HH:mm')}
+          {dayjs(props.value).format('DD/MM/YYYY - HH:mm')}
         </span>
       ),
     },
@@ -32,24 +36,20 @@ const DataTable = props => {
       // id: 'click-me-button',
       accessor: 'id',
       sortable: false,
-      maxWidth: 100,
+      width: 100,
       Cell: ({ value }) => (
         <div
           style={{
             textAlign: 'center',
           }}
         >
-          <button
-            width={'25%'}
-            color={'#dc3545'}
-            onClick={e => {
+          <ButtonDelete
+            onConfirm={() => {
               // const selectedRow =
               //   weightData.find(row => row.id === value) || '';
               deleteWeight(value);
             }}
-          >
-            ✕
-          </button>
+          />
         </div>
       ),
     },

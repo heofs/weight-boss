@@ -14,13 +14,13 @@ import InputForm from 'components/InputForm';
 const Wrapper = styled.div`
   color: ${colors.primary};
   background-color: ${colors.background};
-  text-align: center;
+  /* text-align: center; */
   display: flex;
   flex-direction: column;
   align-items: center;
   /* min-height: 100vh; */
   font-size: calc(10px + 2vmin);
-  width: 30em;
+  max-width: 30em;
   margin: 0 auto;
 `;
 

@@ -2,9 +2,8 @@
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const limitRequests = require('./utils/limit-requests.js');
 
-// Follow instructions to set up admin credentials:
-// https://firebase.google.com/docs/functions/local-emulator#set_up_admin_credentials_optional
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
 });
@@ -13,52 +12,7 @@ const express = require('express');
 const cors = require('cors')({ origin: true });
 const app = express();
 
-const limitRequests = async (req, res, next) => {
-  const userId = req.user.uid;
-
-  try {
-    const minuteRange = 1;
-    const requestAmount = 5;
-    const unixNow = parseInt(new Date().getTime() / 1000);
-    const timeRange = minuteRange * 60;
-    const queryTime = new admin.firestore.Timestamp(unixNow - timeRange, 0);
-
-    // Add request to db
-    admin
-      .firestore()
-      .collection('requests')
-      .add({ userId, dateTime: admin.firestore.Timestamp.now() });
-
-    await admin
-      .firestore()
-      .collection('requests')
-      .where('userId', '==', userId)
-      .where('dateTime', '>', queryTime)
-      .get()
-      .then((snapshot) => {
-        const data = [];
-        if (snapshot.empty) {
-          next();
-          return;
-        }
-        snapshot.forEach((doc) => data.push({ id: doc.id }));
-        if (data.length > requestAmount) {
-          throw new Error('Too many requests');
-        }
-        next();
-        return;
-      })
-      .catch((err) => {
-        console.log('Error getting documents', err);
-      });
-  } catch (error) {
-    console.log('Error: ', error.message);
-    res.status(429).send('Too many requests');
-  }
-};
-
 const authenticate = async (req, res, next) => {
-  console.log('Authenticating... ');
   if (
     !req.headers.authorization ||
     !req.headers.authorization.startsWith('Bearer ')
@@ -74,6 +28,7 @@ const authenticate = async (req, res, next) => {
       .verifyIdToken(idToken)
       .then((decodedIdToken) => {
         req.user = decodedIdToken;
+        console.log(`${new Date().getTime()} - Authenticated ${req.user.uid}`);
         next();
         return;
       });
@@ -100,7 +55,8 @@ app.post('/addWeight', async (req, res) => {
   const { weight: rawWeight, dateTime } = req.body;
 
   if (!rawWeight || !dateTime) {
-    throw new Error('No weight or dateTime found in body!');
+    res.status(400).send('Missing weight or date');
+    return;
   }
 
   const weight = parseFloat(rawWeight);

@@ -1,24 +1,38 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useFirestore } from 'enhancers/useFirestore';
-import SubmitButton from './SubmitButton';
 import DatePicker from 'react-datepicker';
+
+import { useFirestore } from 'enhancers/useFirestore';
+
+import SubmitButton from './SubmitButton';
+import InputBox from './InputBox';
+
+// import { ReactComponent as Box } from 'images/box.svg';
+import { ReactComponent as IonWeight } from 'images/icon-weight.svg';
+import { ReactComponent as IconClock } from 'images/icon-clock.svg';
+import { ReactComponent as IconCalendar } from 'images/icon-calendar.svg';
+
 import 'react-datepicker/dist/react-datepicker.css';
-import { ReactComponent as Box } from 'images/box.svg';
-import ImageInput from './ImageInput';
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Input = styled.input`
-  margin: 1em;
+  width: 100%;
 `;
 
 const FlexRow = styled.div`
+  width: 100%;
   display: flex;
-  max-width: 100vw;
+  justify-content: space-around;
+`;
+
+const ImageWidth = 100;
+const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  svg {
+    height: ${ImageWidth}px;
+    width: ${ImageWidth}px;
+  }
 `;
 
 const InputForm = () => {
@@ -29,36 +43,48 @@ const InputForm = () => {
   return (
     <Wrapper>
       <FlexRow>
-        <ImageInput icon={Box}>
-          <Input
+        <InputGroup>
+          <IonWeight />
+          <InputBox
             type="number"
             name="weight"
             id="weightId"
-            placeholder="your weight"
+            placeholder="weight"
             value={weight}
-            onChange={event => setWeight(event.target.value)}
+            onChange={(event) => setWeight(event.target.value)}
           />
-        </ImageInput>
-        <ImageInput icon={Box}>
+        </InputGroup>
+        <InputGroup>
+          <IconCalendar />
           <DatePicker
             selected={dateTime}
-            onChange={dateTime => setDateTime(dateTime)}
+            onChange={(dateTime) => setDateTime(dateTime)}
+            customInput={<InputBox />}
+            withPortal={true}
           />
-        </ImageInput>
-        <ImageInput icon={Box}>
+        </InputGroup>
+        <InputGroup>
+          <IconClock />
           <DatePicker
             selected={dateTime}
-            onChange={dateTime => setDateTime(dateTime)}
+            onChange={(dateTime) => setDateTime(dateTime)}
             showTimeSelect
             showTimeSelectOnly
             timeIntervals={15}
             timeCaption="Time"
             dateFormat="h:mm aa"
+            customInput={<InputBox />}
+            withPortal={true}
           />
-        </ImageInput>
+        </InputGroup>
       </FlexRow>
 
-      <SubmitButton onClick={() => addWeight(weight, dateTime.getTime())}>
+      <SubmitButton
+        onClick={() => {
+          // setWeight('');
+          addWeight(weight, dateTime.getTime());
+        }}
+      >
         Submit weight
       </SubmitButton>
     </Wrapper>
