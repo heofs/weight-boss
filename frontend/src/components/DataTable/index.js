@@ -26,9 +26,7 @@ const DataTable = (props) => {
       accessor: 'dateTime',
       minWidth: 145,
       Cell: (props) => (
-        <span className="number">
-          {dayjs(props.value).format('DD/MM/YYYY - HH:mm')}
-        </span>
+        <span>{dayjs(props.value).format('DD/MM/YYYY - HH:mm')}</span>
       ),
     },
     {

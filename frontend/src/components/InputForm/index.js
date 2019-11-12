@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 
 import { useFirestore } from 'enhancers/useFirestore';
 
-import SubmitButton from './SubmitButton';
+import SubmitButton from 'components/Buttons/SubmitButton';
 import InputBox from './InputBox';
 
 // import { ReactComponent as Box } from 'images/box.svg';
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const FlexRow = styled.div`
+const FlexRow = styled.form`
   width: 100%;
   display: flex;
   justify-content: space-around;

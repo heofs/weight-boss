@@ -1,22 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { device } from 'constants/theme';
+import BaseInput from 'components/Inputs/BaseInput';
 
-const StyledInput = styled.input`
+const StyledInput = styled(BaseInput)`
   width: 4.9em;
   margin: 1em 0;
-  text-align: center;
   /* height: calc(1.5em + 0.75rem + 2px); */
   /* display: block; */
   padding: 0.375em 0.5em;
-  font-size: 1rem;
-  font-weight: 400;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   @media ${device.mobile} {
     width: 7em;
     margin: 1em 0;

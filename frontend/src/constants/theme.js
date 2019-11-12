@@ -4,7 +4,14 @@ export const colors = {
   primary: '#5cb3b1',
   // primary: '#557A95',
   secondary: '#7395AE',
-  delete: '#dc3545',
+  danger: '#dc3545',
+  beige: `#e5daca`,
+  dark: 'black',
+};
+
+export const sizes = {
+  textSize: '0.8rem',
+  smallerText: '0.8rem',
 };
 
 export const device = {

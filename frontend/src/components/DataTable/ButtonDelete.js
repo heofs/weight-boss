@@ -22,8 +22,8 @@ const Button = styled.button`
 
 const Delete = styled.button`
   color: ${colors.text};
-  background-color: ${colors.delete};
-  border-color: ${colors.delete};
+  background-color: ${colors.danger};
+  border-color: ${colors.danger};
   display: inline-block;
   font-weight: 400;
   border: 1px solid transparent;

@@ -8,6 +8,7 @@ import { ReactComponent as Logo } from 'images/logo-weightboss.svg';
 const Wrapper = styled.header`
   display: flex;
   flex-direction: column;
+
   width: 100%;
   color: ${colors.text};
   margin-bottom: 2em;
@@ -15,20 +16,14 @@ const Wrapper = styled.header`
 
 const LogOutContainer = styled.div`
   display: flex;
-  align-items: right;
   margin: 0;
-  justify-content: space-between;
-  svg {
-    visibility: hidden;
-    height: 35px;
-    margin: 1em;
-    transform: rotate(-35deg);
-  }
+  justify-content: flex-end;
 `;
 
 const LogOutButton = styled.a`
   margin: 0.2em 0.5em;
   font-size: 1em;
+  visibility: ${(props) => (props.visible ? 'visible' : 'hidden')};
   :hover {
     cursor: pointer;
     color: ${colors.secondary};
@@ -42,25 +37,27 @@ const LogoText = styled.h1`
 
 const LogoWrapper = styled.div`
   display: flex;
+  justify-content: center;
   /* svg {
     height: 60px;
     margin: 0.2em 2em;
   } */
   svg {
-    height: 35px;
+    height: 1.1em;
     margin: 1em;
     transform: rotate(-35deg);
   }
 `;
 
 const Header = () => {
-  const { signout } = useAuth();
+  const { user, signout } = useAuth();
 
   return (
     <Wrapper>
       <LogOutContainer>
-        <Logo />
-        <LogOutButton onClick={() => signout()}>Log out</LogOutButton>
+        <LogOutButton onClick={() => signout()} visible={user}>
+          Log out
+        </LogOutButton>
       </LogOutContainer>
       <LogoWrapper>
         <Logo />
