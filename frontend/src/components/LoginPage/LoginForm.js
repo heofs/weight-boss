@@ -9,6 +9,7 @@ import FormGroup from './FormGroup';
 import Input from './Input';
 import ErrorMessage from './ErrorMessage';
 import { ReactComponent as GoogleLogo } from 'images/google-logo.svg';
+import { ReactComponent as TestIcon } from 'images/icon-clock.svg';
 
 const Label = styled.label`
   font-size: ${sizes.smallerText};
@@ -17,6 +18,51 @@ const Label = styled.label`
 const CheckBox = styled.input`
   background-color: white;
   margin: 0.5em 0.5em 0.5em 0;
+`;
+
+const InputContainer = styled.div`
+  height: 2rem;
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+  svg {
+    border-left: 1px solid #ced4da;
+    border-top: 1px solid #ced4da;
+    border-bottom: 1px solid #ced4da;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background: white;
+    color: white;
+    width: 2.5em;
+    padding: 5px;
+    text-align: center;
+  }
+  :focus-within {
+    svg {
+      border-left: 1px solid dodgerblue;
+      border-top: 1px solid dodgerblue;
+      border-bottom: 1px solid dodgerblue;
+    }
+    input {
+      border-right: 1px solid dodgerblue;
+      border-top: 1px solid dodgerblue;
+      border-bottom: 1px solid dodgerblue;
+    }
+  }
+`;
+
+const IconInput = styled.input`
+  width: 100%;
+  padding: 0 0.6em;
+  outline: none;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-right: 1px solid #ced4da;
+  border-top: 1px solid #ced4da;
+  border-bottom: 1px solid #ced4da;
 `;
 
 const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
@@ -31,6 +77,15 @@ const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
         {displayMessage && (
           <ErrorMessage>Username or password is wrong</ErrorMessage>
         )}
+        <InputContainer>
+          <TestIcon />
+          <IconInput
+            type="email"
+            name="email"
+            id="email2"
+            placeholder="Your mail"
+          />
+        </InputContainer>
         <FormGroup>
           <Input
             type="email"
