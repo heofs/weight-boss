@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import BaseButton from 'components/Buttons/BaseButton';
-
+import { sizes } from 'constants/theme';
 const StyledButton = styled(BaseButton)`
   display: flex;
   justify-content: center;
@@ -9,7 +9,7 @@ const StyledButton = styled(BaseButton)`
   width: 100%;
   height: 2.5em;
   margin: 1em 0;
-  font-size: 1em;
+  font-size: ${sizes.textSize};
   white-space: nowrap;
   svg {
     height: 2em;

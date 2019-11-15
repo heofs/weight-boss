@@ -19,7 +19,11 @@ const Wrapper = styled.div`
   padding: 1em;
   border-radius: 5px;
   @media ${device.mobile} {
-    width: 10em;
+    width: 14em;
+  }
+
+  @media ${device.tablet} {
+    width: 12em;
   }
 `;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors } from 'constants/theme';
+import { colors, sizes } from 'constants/theme';
 import { useAuth } from 'enhancers/useAuth';
 
 import { ReactComponent as Logo } from 'images/logo-weightboss.svg';
@@ -22,7 +22,7 @@ const LogOutContainer = styled.div`
 
 const LogOutButton = styled.a`
   margin: 0.2em 0.5em;
-  font-size: 1em;
+  font-size: ${sizes.textSize};
   visibility: ${(props) => (props.visible ? 'visible' : 'hidden')};
   :hover {
     cursor: pointer;
@@ -33,6 +33,7 @@ const LogOutButton = styled.a`
 const LogoText = styled.h1`
   /* margin-top: 0.5em; */
   margin-top: 0;
+  font-weight: 600;
 `;
 
 const LogoWrapper = styled.div`

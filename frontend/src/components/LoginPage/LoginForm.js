@@ -5,64 +5,23 @@ import { sizes } from 'constants/theme';
 import StyledButton from './Button';
 import LinkButton from './LinkButton';
 import Form from './Form';
-import FormGroup from './FormGroup';
-import Input from './Input';
+import Input from '../Inputs/Input';
 import ErrorMessage from './ErrorMessage';
 import { ReactComponent as GoogleLogo } from 'images/google-logo.svg';
 import { ReactComponent as TestIcon } from 'images/icon-clock.svg';
 
-const Label = styled.label`
-  font-size: ${sizes.smallerText};
-`;
-
-const CheckBox = styled.input`
-  background-color: white;
-  margin: 0.5em 0.5em 0.5em 0;
-`;
-
-const InputContainer = styled.div`
-  height: 2rem;
+const CheckBox = styled.div`
   display: flex;
-  width: 100%;
-  margin-bottom: 15px;
-  svg {
-    border-left: 1px solid #ced4da;
-    border-top: 1px solid #ced4da;
-    border-bottom: 1px solid #ced4da;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    background: white;
-    color: white;
-    width: 2.5em;
-    padding: 5px;
-    text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: ${sizes.varticalMargin} 0;
+  label {
+    font-size: ${sizes.smallerText};
   }
-  :focus-within {
-    svg {
-      border-left: 1px solid dodgerblue;
-      border-top: 1px solid dodgerblue;
-      border-bottom: 1px solid dodgerblue;
-    }
-    input {
-      border-right: 1px solid dodgerblue;
-      border-top: 1px solid dodgerblue;
-      border-bottom: 1px solid dodgerblue;
-    }
+  input {
+    background-color: white;
+    margin: 0 0.5rem 0 0;
   }
-`;
-
-const IconInput = styled.input`
-  width: 100%;
-  padding: 0 0.6em;
-  outline: none;
-  border: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-right: 1px solid #ced4da;
-  border-top: 1px solid #ced4da;
-  border-bottom: 1px solid #ced4da;
 `;
 
 const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
@@ -77,52 +36,41 @@ const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
         {displayMessage && (
           <ErrorMessage>Username or password is wrong</ErrorMessage>
         )}
-        <InputContainer>
-          <TestIcon />
-          <IconInput
-            type="email"
-            name="email"
-            id="email2"
-            placeholder="Your mail"
-          />
-        </InputContainer>
-        <FormGroup>
-          <Input
-            type="email"
-            name="email"
-            id="email-id"
-            value={inputs.email}
-            required
-            placeholder="Email address"
-            invalid={!isEmailValid}
-            onChange={(e) => {
-              handleInputChange(e);
-              setEmailValid(true);
-            }}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Input
-            type="password"
-            name="password"
-            id="password-id"
-            placeholder="Password"
-            invalid={!isPasswordValid}
-            onChange={(e) => {
-              handleInputChange(e);
-              setPasswordValid(true);
-            }}
-          />
-        </FormGroup>
-        <FormGroup>
-          <CheckBox
+        <Input
+          icon={TestIcon}
+          type="email"
+          name="email"
+          id="email-id"
+          value={inputs.email}
+          required
+          placeholder="Email address"
+          invalid={!isEmailValid}
+          onChange={(e) => {
+            handleInputChange(e);
+            setEmailValid(true);
+          }}
+        />
+        <Input
+          icon={TestIcon}
+          type="password"
+          name="password"
+          id="password-id"
+          placeholder="Password"
+          invalid={!isPasswordValid}
+          onChange={(e) => {
+            handleInputChange(e);
+            setPasswordValid(true);
+          }}
+        />
+        <CheckBox>
+          <input
             type="checkbox"
             id="remember-id"
             checked={rememberSignin}
             onChange={() => setRememberSignin(!rememberSignin)}
           />
-          <Label htmlFor="remember-id">Remember login</Label>
-        </FormGroup>
+          <label htmlFor="remember-id">Remember login</label>
+        </CheckBox>
         <StyledButton
           type="submit"
           onClick={async (e) => {

@@ -7,11 +7,16 @@ export const colors = {
   danger: '#dc3545',
   beige: `#e5daca`,
   dark: 'black',
+  inputFocus: 'dodgerblue',
+  border: '#ced4da',
 };
 
 export const sizes = {
-  textSize: '0.8rem',
+  textSize: '1.2rem',
   smallerText: '0.8rem',
+  borderSize: '2px',
+  cornerRadius: '4px',
+  varticalMargin: '1rem',
 };
 
 export const device = {
@@ -21,5 +26,5 @@ export const device = {
 };
 
 export const animations = {
-  speed: '0.1s',
+  speed: '0.2s',
 };

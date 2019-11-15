@@ -4,7 +4,7 @@ import Button from './Button';
 import LinkButton from './LinkButton';
 import Form from './Form';
 import FormGroup from './FormGroup';
-import Input from './Input';
+import Input from 'components/Inputs/Input';
 import ErrorMessage from './ErrorMessage';
 
 const ForgotForm = ({ inputs, handleInputChange, setSelection }) => {

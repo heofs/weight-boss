@@ -1,22 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 import { device } from 'constants/theme';
-import BaseInput from 'components/Inputs/BaseInput';
+import { InputWrapper, InputBox as Input } from 'components/Inputs/Input';
 
-const StyledInput = styled(BaseInput)`
-  width: 4.9em;
-  margin: 1em 0;
-  /* height: calc(1.5em + 0.75rem + 2px); */
-  /* display: block; */
-  padding: 0.375em 0.5em;
-  @media ${device.mobile} {
+const StyledWrapper = styled(InputWrapper)`
+  width: 8rem;
+  /* height: 2rem; */
+`;
+
+// const StyledInput = styled(Input)`
+/* margin: 1rem 0; */
+/* height: calc(1.5em + 0.75rem + 2px); */
+/* display: block; */
+/* padding: 0.375rem 0.5rem; */
+/* @media ${device.mobile} {
     width: 7em;
     margin: 1em 0;
-    /* display: block; */
+    display: block;
     font-size: 1rem;
     font-weight: 400;
-  }
-`;
+  } */
+// `;
 
 class InputBox extends React.Component {
   render() {
@@ -32,16 +36,18 @@ class InputBox extends React.Component {
     } = this.props;
 
     return (
-      <StyledInput
-        onChange={onChange}
-        placeholder={placeholder}
-        value={value}
-        isSecure={isSecure}
-        id={id}
-        onClick={onClick}
-        type={type}
-        name={name}
-      />
+      <StyledWrapper>
+        <Input
+          onChange={onChange}
+          placeholder={placeholder}
+          value={value}
+          isSecure={isSecure}
+          id={id}
+          onClick={onClick}
+          type={type}
+          name={name}
+        />
+      </StyledWrapper>
     );
   }
 }
