@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import dayjs from 'dayjs';
 import ReactTable from 'react-table';
 
@@ -7,6 +8,10 @@ import { useFirestore } from 'enhancers/useFirestore';
 import ButtonDelete from './ButtonDelete';
 
 import 'react-table/react-table.css';
+import 'styles/data-table.scss';
+const Table = styled(ReactTable)`
+  width: 100%;
+`;
 
 const DataTable = (props) => {
   const { weightData, deleteWeight } = useFirestore();
@@ -19,12 +24,12 @@ const DataTable = (props) => {
     {
       Header: 'Weight',
       accessor: 'weight',
-      width: 70,
+      width: 100,
     },
     {
       Header: 'Time',
       accessor: 'dateTime',
-      minWidth: 145,
+      minWidth: 150,
       Cell: (props) => (
         <span>{dayjs(props.value).format('DD/MM/YYYY - HH:mm')}</span>
       ),
@@ -54,7 +59,7 @@ const DataTable = (props) => {
   ];
 
   return (
-    <ReactTable
+    <Table
       data={weightData}
       columns={columns}
       minRows={1}

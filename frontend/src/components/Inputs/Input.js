@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { sizes, colors, animations } from 'constants/theme';
 
 export const InputWrapper = styled.div`
-  height: 2.5rem;
+  height: 3rem;
   display: flex;
   width: 100%;
   margin-bottom: ${sizes.varticalMargin};
@@ -23,9 +23,15 @@ export const InputWrapper = styled.div`
   }
   /* Set borders and corners if no icon */
   input {
-    ${({ hasIcon }) =>
-      !hasIcon && `border-left:  ${sizes.borderSize} solid ${colors.border}`}
-    ${({ hasIcon }) => !hasIcon && `border-radius:  ${sizes.cornerRadius}`}
+    ${({ hasIcon }) => {
+      if (!hasIcon) {
+        return `
+          border-left:  ${sizes.borderSize} solid ${colors.border};
+          border-radius:  ${sizes.cornerRadius};
+          padding-left: 1rem;
+          `;
+      }
+    }}
   }
   /* When input has focus */
   :focus-within {
@@ -50,17 +56,21 @@ export const InputWrapper = styled.div`
 
 export const InputBox = styled.input`
   width: 100%;
-  font-size: ${sizes.textSize};
-  padding: 0 0.6em;
+  /* font-size: ${sizes.textSize}; */
+  /* padding: 0 0.6em; */
   outline: none;
   border: none;
   -webkit-box-shadow: none;
   box-shadow: none;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
+  border-top-right-radius: ${sizes.cornerRadius};
+  border-bottom-right-radius: ${sizes.cornerRadius};
   border-right: ${sizes.borderSize} solid ${colors.border};
   border-top: ${sizes.borderSize} solid ${colors.border};
   border-bottom: ${sizes.borderSize} solid ${colors.border};
+  ::placeholder { 
+    color: grey;
+    opacity: 1; /* Firefox */
+  }
 `;
 
 const Input = (props) => {

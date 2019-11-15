@@ -3,7 +3,6 @@ import { useAuth } from 'enhancers/useAuth';
 import Button from './Button';
 import LinkButton from './LinkButton';
 import Form from './Form';
-import FormGroup from './FormGroup';
 import Input from 'components/Inputs/Input';
 import ErrorMessage from './ErrorMessage';
 
@@ -20,16 +19,14 @@ const ForgotForm = ({ inputs, handleInputChange, setSelection }) => {
   return (
     <Form>
       {displayMessage && <ErrorMessage>{displayMessage}</ErrorMessage>}
-      <FormGroup>
-        <Input
-          type="email"
-          name="email"
-          id="email-id"
-          value={inputs.email}
-          placeholder="Email address"
-          onChange={(e) => handleInputChange(e)}
-        />
-      </FormGroup>
+      <Input
+        type="email"
+        name="email"
+        id="email-id"
+        value={inputs.email}
+        placeholder="Email address"
+        onChange={(e) => handleInputChange(e)}
+      />
       <Button onClick={(e) => sendEmail(e)}>Send email</Button>
     </Form>
   );

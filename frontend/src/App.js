@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import 'styles/index.css';
+import 'styles/index.scss';
 import { useAuth } from 'enhancers/useAuth';
 
 import styled from 'styled-components';
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   /* min-height: 100vh; */
-  font-size: calc(10px + 2vmin);
+  /* font-size: calc(10px + 2vmin); */
   max-width: 30em;
   margin: 0 auto;
 `;

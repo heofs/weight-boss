@@ -5,6 +5,7 @@ import { colors, animations, sizes } from 'constants/theme';
 const Button = styled.a`
   font-size: ${sizes.smallerText};
   margin: 0.8em 0;
+  font-weight: 500;
   cursor: pointer;
   color: ${colors.primary};
   :hover {

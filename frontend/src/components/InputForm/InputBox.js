@@ -22,6 +22,10 @@ const StyledWrapper = styled(InputWrapper)`
   } */
 // `;
 
+const StyledInput = styled(Input)`
+  font-size: 1.2rem;
+`;
+
 class InputBox extends React.Component {
   render() {
     const {
@@ -37,7 +41,7 @@ class InputBox extends React.Component {
 
     return (
       <StyledWrapper>
-        <Input
+        <StyledInput
           onChange={onChange}
           placeholder={placeholder}
           value={value}

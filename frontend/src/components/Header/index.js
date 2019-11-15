@@ -32,13 +32,15 @@ const LogOutButton = styled.a`
 
 const LogoText = styled.h1`
   /* margin-top: 0.5em; */
-  margin-top: 0;
+  font-size: 3.3rem;
+  margin: 0;
   font-weight: 600;
 `;
 
 const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
+  margin: 2rem 0;
   /* svg {
     height: 60px;
     margin: 0.2em 2em;
@@ -61,8 +63,9 @@ const Header = () => {
         </LogOutButton>
       </LogOutContainer>
       <LogoWrapper>
-        <Logo />
+        {/* <Logo /> */}
         <LogoText>Weight Boss</LogoText>
+        {/* <Logo style={{ visibility: 'hidden' }} /> */}
       </LogoWrapper>
     </Wrapper>
   );
