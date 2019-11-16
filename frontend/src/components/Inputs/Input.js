@@ -75,10 +75,10 @@ export const InputBox = styled.input`
 
 const Input = (props) => {
   const {
+    id,
     icon: Icon,
     type,
     name,
-    id,
     value,
     required,
     placeholder,
@@ -105,6 +105,16 @@ const Input = (props) => {
   );
 };
 
-Input.propTypes = {};
+Input.propTypes = {
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  icon: PropTypes.object,
+  value: PropTypes.string,
+  required: PropTypes.bool,
+  placeholder: PropTypes.string,
+  invalid: PropTypes.bool,
+};
 
 export default Input;
