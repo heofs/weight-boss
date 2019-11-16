@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { colors, sizes } from 'constants/theme';
 import { useAuth } from 'enhancers/useAuth';
 
-import { ReactComponent as Logo } from 'images/logo-weightboss.svg';
-
 const Wrapper = styled.header`
   display: flex;
   flex-direction: column;
@@ -31,7 +29,6 @@ const LogOutButton = styled.a`
 `;
 
 const LogoText = styled.h1`
-  /* margin-top: 0.5em; */
   font-size: 3.3rem;
   margin: 0;
   font-weight: 600;
@@ -41,10 +38,6 @@ const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: 2rem 0;
-  /* svg {
-    height: 60px;
-    margin: 0.2em 2em;
-  } */
   svg {
     height: 1.1em;
     margin: 1em;
@@ -63,9 +56,7 @@ const Header = () => {
         </LogOutButton>
       </LogOutContainer>
       <LogoWrapper>
-        {/* <Logo /> */}
         <LogoText>Weight Boss</LogoText>
-        {/* <Logo style={{ visibility: 'hidden' }} /> */}
       </LogoWrapper>
     </Wrapper>
   );

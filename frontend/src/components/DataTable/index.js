@@ -9,6 +9,7 @@ import ButtonDelete from './ButtonDelete';
 
 import 'react-table/react-table.css';
 import 'styles/data-table.scss';
+
 const Table = styled(ReactTable)`
   width: 100%;
 `;
