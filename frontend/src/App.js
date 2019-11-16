@@ -10,16 +10,13 @@ import LoadingPage from 'components/LoadingPage';
 import DataTable from 'components/DataTable';
 import Header from 'components/Header';
 import InputForm from 'components/InputForm';
+import Graph from 'components/Graph';
 
 const Wrapper = styled.div`
   color: ${colors.text};
-  /* background-color: ${colors.background}; */
-  /* text-align: center; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* min-height: 100vh; */
-  /* font-size: calc(10px + 2vmin); */
   max-width: 30em;
   margin: 0 auto;
 `;
@@ -47,6 +44,7 @@ const App = () => {
         return (
           <>
             <InputForm />
+            <Graph />
             <DataTable />
           </>
         );
