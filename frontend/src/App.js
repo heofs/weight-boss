@@ -44,7 +44,7 @@ const App = () => {
         return (
           <>
             <InputForm />
-            <Graph />
+            <Graph height={250} width={500} />
             <DataTable />
           </>
         );
