@@ -26,12 +26,12 @@ const Wrapper = styled.div`
 
 const SVG = styled.svg`
   /* background: red; */
-  color: white;
+  /* color: white; */
 
-  rect {
+  /* rect {
     color: white;
     background: white;
-  }
+  } */
   .focusCircle {
     fill: white;
     stroke: ${colors.primary};
@@ -45,34 +45,52 @@ const SVG = styled.svg`
 const LineChart = (props) => {
   const d3Container = useRef(null);
   const { weightData } = useFirestore();
-  console.log(weightData);
-
-  const [data, setData] = useState([
-    { x: new Date(2016, 0, 1), y: 2 },
-    { x: new Date(2016, 1, 1), y: 2 },
-    { x: new Date(2016, 2, 1), y: 3 },
-    { x: new Date(2016, 2, 17), y: 2 },
-    { x: new Date(2016, 5, 1), y: 12 },
-    { x: new Date(2016, 9, 1), y: 4 },
-    { x: new Date(2016, 12, 1), y: 8 },
-  ]);
   const [hoverText, setHoverText] = useState('');
   const margin = { top: 10, right: 30, bottom: 30, left: 40 };
   const width = props.width - margin.left - margin.right;
   const height = props.height - margin.top - margin.bottom;
-  const maxX = data.reduce((acc, next) => (next.x > acc ? next.x : acc), 0);
-  const maxY = data.reduce((acc, next) => (next.y > acc ? next.y : acc), 0);
 
   useEffect(() => {
+    if (!weightData[0]) {
+      return;
+    }
+    const sortedData = weightData.sort((a, b) => a.dateTime - b.dateTime);
+    console.log(sortedData);
+    const maxX = sortedData.reduce(
+      (max, next) => (next.dateTime > max ? next.dateTime : max),
+      0
+    );
+    const minX = sortedData.reduce(
+      (min, next) => (next.dateTime < min ? next.dateTime : min),
+      9999999999999999
+    );
+    const maxY = sortedData.reduce(
+      (max, next) => (next.weight > max ? next.weight : max),
+      0
+    );
+    const minY = sortedData.reduce(
+      (min, next) => (next.weight < min ? next.weight : min),
+      9999
+    );
+
     const svg = select(d3Container.current)
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
+    // svg.selectAll('path').remove();
+
+    // Add Y axis
+    const yScale = scaleLinear()
+      .domain([minY - 3, maxY + 3])
+      .range([height, 0]);
+
+    svg.append('g').call(axisLeft(yScale));
+
     // Add X axis --> it is a date format
     const xScale = scaleTime()
-      .domain([new Date(2016, 0, 1), new Date(2017, 0, 1)])
+      .domain([new Date(parseInt(minX)), new Date(parseInt(maxX))])
       .range([0, width]);
 
     svg
@@ -90,18 +108,12 @@ const LineChart = (props) => {
       .attr('transform', 'rotate(45)')
       .style('text-anchor', 'start');
 
-    // Add Y axis
-    const yScale = scaleLinear()
-      .domain([0, 13])
-      .range([height, 0]);
-
-    svg.append('g').call(axisLeft(yScale));
     // This allows to find the closest X index of the mouse:
-    const bisect = bisector((d) => d.x).left;
+    const bisect = bisector((d) => d.dateTime).left;
 
     svg
       .append('path')
-      .datum(data)
+      .datum(sortedData)
       .attr('fill', 'none')
       .attr('stroke', 'steelblue')
       .attr('stroke-width', 1.5)
@@ -109,9 +121,9 @@ const LineChart = (props) => {
       .attr(
         'd',
         line()
-          .x((d) => xScale(d.x))
-          .y((d) => yScale(d.y))
-          .curve(curveCardinal)
+          .x((d) => xScale(d.dateTime))
+          .y((d) => yScale(d.weight))
+        //   .curve(curveCardinal)
       );
 
     // Create the circle that travels along the curve of chart
@@ -125,22 +137,23 @@ const LineChart = (props) => {
     // What happens when the mouse move -> show the annotations at the right positions.
     function mousemove() {
       const mouseDate = xScale.invert(mouse(this)[0]);
-      const i = bisect(data, mouseDate, 1);
+      const i = bisect(sortedData, mouseDate, 1);
       if (mouseDate > maxX) {
         return;
       }
-      var d0 = data[i - 1];
-      var d1 = data[i];
-      const selectedData = mouseDate - d0.x > d1.x - mouseDate ? d1 : d0;
+      const d0 = sortedData[i - 1];
+      const d1 = sortedData[i];
+      const selectedData =
+        mouseDate - d0.dateTime > d1.dateTime - mouseDate ? d1 : d0;
       setHoverText(
-        selectedData.y +
+        selectedData.weight +
           'kg' +
           ' at ' +
-          dayjs(selectedData.x).format('DD/MM/YY - HH:mm')
+          dayjs(selectedData.dateTime).format('DD/MM/YY - HH:mm')
       );
       focus
-        .attr('cx', xScale(selectedData.x))
-        .attr('cy', yScale(selectedData.y));
+        .attr('cx', xScale(selectedData.dateTime))
+        .attr('cy', yScale(selectedData.weight));
     }
     const mouseover = () => {
       focus.style('opacity', 1);
@@ -160,11 +173,15 @@ const LineChart = (props) => {
       .on('mouseover', mouseover)
       .on('mousemove', mousemove)
       .on('mouseout', mouseout);
-  }, [width, height, data]);
+  }, [width, height, weightData]);
+
+  if (!weightData[0]) {
+    return <p>Display graph by adding more weights.</p>;
+  }
 
   return (
     <Wrapper>
-      <p> {hoverText}</p>
+      <p>{hoverText}</p>
       <SVG ref={d3Container} width={width} height={height} />
     </Wrapper>
   );
