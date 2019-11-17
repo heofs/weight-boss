@@ -10,6 +10,7 @@ import LoadingPage from 'components/LoadingPage';
 import DataTable from 'components/DataTable';
 import Header from 'components/Header';
 import InputForm from 'components/InputForm';
+import Graph from 'components/Graph';
 
 const Wrapper = styled.div`
   color: ${colors.text};
@@ -47,6 +48,7 @@ const App = () => {
         return (
           <>
             <InputForm />
+            <Graph height={300} width={500} />
             <DataTable />
           </>
         );
