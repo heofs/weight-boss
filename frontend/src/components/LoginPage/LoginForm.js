@@ -8,7 +8,8 @@ import Form from './Form';
 import Input from '../Inputs/Input';
 import ErrorMessage from './ErrorMessage';
 import { ReactComponent as GoogleLogo } from 'images/google-logo.svg';
-import { ReactComponent as TestIcon } from 'images/icon-clock.svg';
+import { ReactComponent as KeyIcon } from 'images/icon-key.svg';
+import { ReactComponent as EnvelopeIcon } from 'images/icon-envelope.svg';
 
 const CheckBox = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
           <ErrorMessage>Username or password is wrong</ErrorMessage>
         )}
         <Input
-          icon={TestIcon}
+          icon={EnvelopeIcon}
           type="email"
           name="email"
           id="email-id"
@@ -51,7 +52,7 @@ const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
           }}
         />
         <Input
-          icon={TestIcon}
+          icon={KeyIcon}
           type="password"
           name="password"
           id="password-id"
