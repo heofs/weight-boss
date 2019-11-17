@@ -12,6 +12,7 @@ import 'styles/data-table.scss';
 
 const Table = styled(ReactTable)`
   width: 100%;
+  margin: 2rem 0;
 `;
 
 const DataTable = (props) => {

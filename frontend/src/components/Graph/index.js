@@ -2,11 +2,22 @@ import React, { useState } from 'react';
 import { useFirestore } from 'enhancers/useFirestore';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 
 const Wrapper = styled.div`
+  margin: 2rem 0;
+  width: 100%;
+  height: 300px;
   p {
     height: 1rem;
+    margin: 0;
   }
 `;
 
@@ -54,26 +65,26 @@ const Graph = (props) => {
   return (
     <Wrapper>
       <p>{message}</p>
-      <LineChart
-        width={600}
-        height={300}
-        data={weightData}
-        margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-        onMouseLeave={() => setMessage('')}
-      >
-        <Line
-          type="monotone"
-          dataKey="weight"
-          stroke="#8884d8"
-          animationDuration={400}
-        />
-        <XAxis dataKey="dateTime" tickFormatter={formatXAxis} />
-        <YAxis type="number" domain={[yMin, yMax]} ticks={generateTicks()} />
-        <Tooltip
-          content={handleTooltip}
-          cursor={{ strokeWidth: 1, strokeDasharray: '1 5' }}
-        />
-      </LineChart>
+      <ResponsiveContainer width={'100%'} height={300}>
+        <LineChart
+          data={weightData}
+          margin={{ top: 5, right: 20, bottom: 5, left: -30 }}
+          onMouseLeave={() => setMessage('')}
+        >
+          <Line
+            type="monotone"
+            dataKey="weight"
+            stroke="#8884d8"
+            animationDuration={400}
+          />
+          <XAxis dataKey="dateTime" tickFormatter={formatXAxis} />
+          <YAxis type="number" domain={[yMin, yMax]} ticks={generateTicks()} />
+          <Tooltip
+            content={handleTooltip}
+            cursor={{ strokeWidth: 1, strokeDasharray: '1 5' }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </Wrapper>
   );
 };

@@ -5,7 +5,7 @@ import BaseButton from 'components/Buttons/BaseButton';
 
 const Button = styled(BaseButton)`
   text-transform: uppercase;
-  margin: 3em 0em;
+  margin: 2rem 0em;
   padding: 1em 2em;
   width: 65%;
 `;
