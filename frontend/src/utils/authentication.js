@@ -27,17 +27,8 @@ function useFirebaseAuth() {
     });
   };
 
-  const signinPersist = async (email, password) => {
-    const newSignin = await auth
-      .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-      .then(() => {
-        return signin(email, password);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-    return newSignin;
-  };
+  const persistSignin = async () =>
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
   const signout = () => {
     return auth.signOut().then(() => {
@@ -48,8 +39,8 @@ function useFirebaseAuth() {
   const signinGoogle = () => {
     auth
       .signInWithPopup(googleProvider)
+      .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then((res) => {
-        // console.log(result.credential.accessToken);
         setUser(res.user);
       })
       .catch((error) => {
@@ -84,7 +75,7 @@ function useFirebaseAuth() {
     user,
     signin,
     signup,
-    signinPersist,
+    persistSignin,
     signout,
     signinGoogle,
     sendPasswordResetEmail,

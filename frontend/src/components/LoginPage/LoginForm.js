@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import styled from 'styled-components';
 import { useAuth } from 'enhancers/useAuth';
 import { sizes } from 'constants/theme';
@@ -25,16 +25,42 @@ const CheckBox = styled.div`
   }
 `;
 
+const initialState = {
+  remember: false,
+  message: false,
+  passwordValid: true,
+  emailValid: true,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'remember':
+      return { ...state, remember: !state.remember };
+    case 'message':
+      return { ...state, message: action.payload };
+    case 'passwordValid':
+      return { ...state, passwordValid: action.payload };
+    case 'emailValid':
+      return { ...state, emailValid: action.payload };
+    case 'allValid':
+      return {
+        ...state,
+        passwordValid: action.payload,
+        emailValid: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
 const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
-  const { signin, signinPersist, signinGoogle } = useAuth();
-  const [rememberSignin, setRememberSignin] = useState(false);
-  const [isPasswordValid, setPasswordValid] = useState(true);
-  const [isEmailValid, setEmailValid] = useState(true);
-  const [displayMessage, setDisplayMessage] = useState(false);
+  const { signin, persistSignin, signinGoogle } = useAuth();
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
     <>
       <Form>
-        {displayMessage && (
+        {state.message && (
           <ErrorMessage>Username or password is wrong</ErrorMessage>
         )}
         <Input
@@ -45,10 +71,10 @@ const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
           value={inputs.email}
           required
           placeholder="Email address"
-          invalid={!isEmailValid}
+          invalid={!state.emailValid}
           onChange={(e) => {
             handleInputChange(e);
-            setEmailValid(true);
+            dispatch({ type: 'emailValid', payload: true });
           }}
         />
         <Input
@@ -57,43 +83,43 @@ const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
           name="password"
           id="password-id"
           placeholder="Password"
-          invalid={!isPasswordValid}
+          invalid={!state.passwordValid}
           onChange={(e) => {
             handleInputChange(e);
-            setPasswordValid(true);
+            dispatch({ type: 'passwordValid', payload: true });
           }}
         />
         <CheckBox>
           <input
             type="checkbox"
             id="remember-id"
-            checked={rememberSignin}
-            onChange={() => setRememberSignin(!rememberSignin)}
+            checked={state.remember}
+            onChange={() => dispatch({ type: 'remember' })}
           />
           <label htmlFor="remember-id">Remember login</label>
         </CheckBox>
         <StyledButton
           type="submit"
-          onClick={async (e) => {
+          onClick={(e) => {
             e.preventDefault();
-            setDisplayMessage(false);
-            if (rememberSignin === true) {
-              console.log(inputs);
-              signinPersist(inputs.email, inputs.password);
+            dispatch({ type: 'message', payload: false });
+            if (state.remember === true) {
+              persistSignin(inputs.email, inputs.password);
             }
             signin(inputs.email, inputs.password).catch(({ code }) => {
               if (
                 code.includes('invalid-email') ||
                 code.includes('wrong-password')
               ) {
-                setEmailValid(false);
-                setPasswordValid(false);
-                setDisplayMessage('Wrong username or password');
+                dispatch({ type: 'allValid', payload: false });
+                dispatch({
+                  type: 'message',
+                  payload: 'Wrong username or password',
+                });
               }
               if (code.includes('user-not-found')) {
-                setEmailValid(false);
-                setPasswordValid(false);
-                setDisplayMessage('User not found');
+                dispatch({ type: 'allValid', payload: false });
+                dispatch({ type: 'message', payload: 'User not found' });
               }
             });
           }}
@@ -113,8 +139,8 @@ const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
       <LinkButton
         onClick={(e) => {
           e.preventDefault();
+          dispatch({ type: 'message', payload: false });
           setSelection('forgotpw');
-          setDisplayMessage(false);
         }}
       >
         Forgot your password?
@@ -122,8 +148,8 @@ const LoginForm = ({ inputs, handleInputChange, setSelection }) => {
       <LinkButton
         onClick={(e) => {
           e.preventDefault();
+          dispatch({ type: 'message', payload: false });
           setSelection('register');
-          setDisplayMessage(false);
         }}
       >
         Create an account

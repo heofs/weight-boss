@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from 'enhancers/useAuth';
 import Button from './Button';
-// import LinkButton from './LinkButton';
+import LinkButton from './LinkButton';
 import Form from './Form';
 import Input from 'components/Inputs/Input';
 import ErrorMessage from './ErrorMessage';
@@ -28,6 +28,14 @@ const ForgotForm = ({ inputs, handleInputChange, setSelection }) => {
         onChange={(e) => handleInputChange(e)}
       />
       <Button onClick={(e) => sendEmail(e)}>Send email</Button>
+      <LinkButton
+        onClick={(e) => {
+          e.preventDefault();
+          setSelection('login');
+        }}
+      >
+        Back to login
+      </LinkButton>
     </Form>
   );
 };
