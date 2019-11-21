@@ -37,9 +37,9 @@ function useFirebaseAuth() {
   };
 
   const signinGoogle = () => {
+    persistSignin();
     auth
       .signInWithPopup(googleProvider)
-      .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then((res) => {
         setUser(res.user);
       })
