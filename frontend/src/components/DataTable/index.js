@@ -66,6 +66,12 @@ const DataTable = (props) => {
       columns={columns}
       minRows={1}
       showPagination={false}
+      defaultSorted={[
+        {
+          id: 'dateTime',
+          desc: true,
+        },
+      ]}
     />
   );
 };
