@@ -6,7 +6,7 @@ export default styled.button`
   background: ${colors.primary};
   font-size: ${sizes.textSize};
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: ${sizes.cornerRadius};
   display: inline-block;
   border: none;
   transition: all ${animations.speed} ease 0s;
@@ -17,5 +17,9 @@ export default styled.button`
     -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
     box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
     transition: all ${animations.speed} ease 0s;
+  }
+  :focus {
+    outline: none;
+    box-shadow: 0 0 2pt 1pt ${colors.inputFocus};
   }
 `;
