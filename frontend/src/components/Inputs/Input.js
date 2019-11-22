@@ -9,6 +9,7 @@ export const InputWrapper = styled.div`
   display: flex;
   width: 100%;
   margin-bottom: ${sizes.varticalMargin};
+
   svg {
     border-left: ${sizes.borderSize} solid ${colors.border};
     border-top: ${sizes.borderSize} solid ${colors.border};
@@ -56,8 +57,6 @@ export const InputWrapper = styled.div`
 
 export const InputBox = styled.input`
   width: 100%;
-  /* font-size: ${sizes.textSize}; */
-  /* padding: 0 0.6em; */
   outline: none;
   border: none;
   -webkit-box-shadow: none;
@@ -67,7 +66,8 @@ export const InputBox = styled.input`
   border-right: ${sizes.borderSize} solid ${colors.border};
   border-top: ${sizes.borderSize} solid ${colors.border};
   border-bottom: ${sizes.borderSize} solid ${colors.border};
-  ::placeholder { 
+
+  ::placeholder {
     color: grey;
     opacity: 1; /* Firefox */
   }

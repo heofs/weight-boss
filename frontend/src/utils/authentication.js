@@ -36,8 +36,8 @@ function useFirebaseAuth() {
     });
   };
 
-  const signinGoogle = () => {
-    persistSignin();
+  const signinGoogle = async () => {
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     auth
       .signInWithPopup(googleProvider)
       .then((res) => {
@@ -47,6 +47,7 @@ function useFirebaseAuth() {
         console.log(error.message);
       });
   };
+
   const sendPasswordResetEmail = (email) => {
     return auth.sendPasswordResetEmail(email).then(() => {
       return true;

@@ -10,7 +10,6 @@ const StyledButton = styled(BaseButton)`
   width: 100%;
   height: 2.5em;
   margin: 1em 0;
-  font-size: ${sizes.textSize};
   white-space: nowrap;
   svg {
     height: 2em;
