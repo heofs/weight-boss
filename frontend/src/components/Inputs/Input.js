@@ -38,19 +38,18 @@ export const InputWrapper = styled.div`
   :focus-within {
     svg {
       transition: all ${animations.speed} ease 0s;
-      border-left: ${sizes.borderSize} solid ${colors.inputFocus};
-      border-top: ${sizes.borderSize} solid ${colors.inputFocus};
-      border-bottom: ${sizes.borderSize} solid ${colors.inputFocus};
+      border-left: ${sizes.borderSize} solid ${colors.focus};
+      border-top: ${sizes.borderSize} solid ${colors.focus};
+      border-bottom: ${sizes.borderSize} solid ${colors.focus};
     }
     input {
       transition: all ${animations.speed} ease 0s;
-      border-right: ${sizes.borderSize} solid ${colors.inputFocus};
-      border-top: ${sizes.borderSize} solid ${colors.inputFocus};
-      border-bottom: ${sizes.borderSize} solid ${colors.inputFocus};
+      border-right: ${sizes.borderSize} solid ${colors.focus};
+      border-top: ${sizes.borderSize} solid ${colors.focus};
+      border-bottom: ${sizes.borderSize} solid ${colors.focus};
       /* Focus border on left side if no icon */
       ${({ hasIcon }) =>
-        !hasIcon &&
-        `border-left: ${sizes.borderSize} solid ${colors.inputFocus}`}
+        !hasIcon && `border-left: ${sizes.borderSize} solid ${colors.focus}`}
     }
   }
 `;

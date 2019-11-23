@@ -8,7 +8,7 @@ import ForgotForm from './ForgotForm';
 import { colors, device } from 'constants/theme';
 
 const Wrapper = styled.div`
-  color: ${colors.dark};
+  color: black;
   background-color: ${colors.beige};
   width: 15em;
   display: flex;

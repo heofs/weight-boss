@@ -1,15 +1,20 @@
 export const colors = {
-  background: '#282c34',
-  text: 'white',
-  primary: '#5cb3b1',
-  // primary: '#557A95',
-  secondary: '#7395AE',
-  danger: '#dc3545',
+  turquoise: '#5cb3b1',
+  red: '#dc3545',
   beige: `#e5daca`,
-  dark: 'black',
-  inputFocus: 'dodgerblue',
+  grey: '#7395AE',
+  dark: '#282c34',
+  blue: 'dodgerblue',
   border: '#ced4da',
 };
+
+colors.primary = colors.turquoise;
+colors.secondary = colors.grey;
+colors.background = colors.dark;
+colors.danger = colors.red;
+colors.text = 'white';
+colors.focus = colors.blue;
+colors.border = colors.turquoise;
 
 export const sizes = {
   textSize: '1.2rem',

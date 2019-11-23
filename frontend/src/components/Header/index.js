@@ -24,7 +24,7 @@ const LogOutButton = styled.a`
   visibility: ${(props) => (props.visible ? 'visible' : 'hidden')};
   :hover {
     cursor: pointer;
-    color: ${colors.secondary};
+    color: ${colors.primary};
   }
 `;
 
