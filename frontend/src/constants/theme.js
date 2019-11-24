@@ -1,5 +1,6 @@
 export const colors = {
   turquoise: '#5cb3b1',
+  darkTurquoise: '#499d9b',
   red: '#dc3545',
   beige: `#e5daca`,
   grey: '#7395AE',
@@ -9,6 +10,7 @@ export const colors = {
 };
 
 colors.primary = colors.turquoise;
+colors.darkPrimary = colors.darkTurquoise;
 colors.secondary = colors.grey;
 colors.background = colors.dark;
 colors.danger = colors.red;

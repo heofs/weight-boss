@@ -11,11 +11,11 @@ export default styled.button`
   border: none;
   transition: all ${animations.speed} ease 0s;
   :hover {
-    background: #434343;
+    background: ${colors.darkPrimary};
     /* letter-spacing: 1px; */
-    -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
-    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
-    box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+    -webkit-box-shadow: 0px 0px 1px 1px ${colors.darkPrimary};
+    -moz-box-shadow: 0px 0px 1px 1px ${colors.darkPrimary};
+    box-shadow: 0px 0px 1px 1px ${colors.darkPrimary};
     transition: all ${animations.speed} ease 0s;
   }
   :focus {
