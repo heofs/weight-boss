@@ -68,7 +68,7 @@ const Graph = (props) => {
       <ResponsiveContainer width={'100%'} height={300}>
         <LineChart
           data={weightData}
-          margin={{ top: 5, right: 20, bottom: 5, left: -30 }}
+          margin={{ top: 5, right: 30, bottom: 5, left: -20 }}
           onMouseLeave={() => setMessage('')}
         >
           <Line
