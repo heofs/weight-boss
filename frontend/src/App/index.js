@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from 'enhancers/useAuth';
-
 import styled from 'styled-components';
-import { colors } from './constants/theme';
+
+import { colors } from 'constants/theme';
 
 import LoginPage from 'components/LoginPage/index.js';
 import LoadingPage from 'components/LoadingPage';
