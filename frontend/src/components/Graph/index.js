@@ -23,13 +23,14 @@ const Wrapper = styled.div`
 
 const formatXAxis = (tickItem) => dayjs(tickItem).format('DD/MM/YY');
 
-const Graph = (props) => {
-  const { weightData } = useFirestore();
+const Graph = () => {
+  const { weightData: unsortedWeight } = useFirestore();
   const [message, setMessage] = useState('');
 
-  if (!weightData[0]) {
+  if (!unsortedWeight[0]) {
     return <p>Add weight to show graph.</p>;
   }
+  const weightData = unsortedWeight.sort((a, b) => a.dateTime - b.dateTime);
 
   const yMax =
     weightData.reduce(
@@ -44,12 +45,14 @@ const Graph = (props) => {
 
   const generateTicks = () => {
     const ticks = [];
-    for (let i = yMin + 1; i < yMax; i++) {
+    const min = parseInt(yMin);
+    const max = parseInt(yMax);
+    for (let i = min + 1; i < max; i++) {
       if (i % 5 === 0) {
         ticks.push(i);
       }
     }
-    return [yMin, ...ticks, yMax];
+    return [min, ...ticks, max];
   };
 
   const handleTooltip = ({ active, payload, label }) => {
@@ -58,7 +61,6 @@ const Graph = (props) => {
         `${payload[0].value}kg at ${dayjs(label).format('DD/MM/YY - HH:mm')}`
       );
     }
-
     return null;
   };
 
@@ -77,8 +79,21 @@ const Graph = (props) => {
             stroke="#8884d8"
             animationDuration={400}
           />
-          <XAxis dataKey="dateTime" tickFormatter={formatXAxis} />
-          <YAxis type="number" domain={[yMin, yMax]} ticks={generateTicks()} />
+          <XAxis
+            name="Time"
+            type="number"
+            dataKey="dateTime"
+            domain={['auto', 'auto']}
+            tickFormatter={formatXAxis}
+            dy={10}
+          />
+          <YAxis
+            name="Weight"
+            type="number"
+            dataKey="weight"
+            domain={[yMin, yMax]}
+            ticks={generateTicks()}
+          />
           <Tooltip
             content={handleTooltip}
             cursor={{ strokeWidth: 1, strokeDasharray: '1 5' }}
