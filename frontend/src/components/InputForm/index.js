@@ -61,6 +61,7 @@ const InputForm = () => {
             onChange={(dateTime) => setDateTime(dateTime)}
             customInput={<InputBox />}
             withPortal={true}
+            dateFormat="dd/MM/yy"
           />
         </InputGroup>
         <InputGroup>
@@ -70,7 +71,7 @@ const InputForm = () => {
             onChange={(dateTime) => setDateTime(dateTime)}
             showTimeSelect
             showTimeSelectOnly
-            timeIntervals={15}
+            timeIntervals={60}
             timeCaption="Time"
             dateFormat="h:mm aa"
             customInput={<InputBox />}
