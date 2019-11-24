@@ -86,6 +86,7 @@ const Graph = () => {
             domain={['auto', 'auto']}
             tickFormatter={formatXAxis}
             dy={10}
+            stroke="white"
           />
           <YAxis
             name="Weight"
@@ -93,6 +94,8 @@ const Graph = () => {
             dataKey="weight"
             domain={[yMin, yMax]}
             ticks={generateTicks()}
+            stroke="white"
+            dx={-10}
           />
           <Tooltip
             content={handleTooltip}
