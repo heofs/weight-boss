@@ -80,12 +80,7 @@ const InputForm = () => {
         </InputGroup>
       </FlexRow>
 
-      <SubmitButton
-        onClick={() => {
-          // setWeight('');
-          addWeight(weight, dateTime.getTime());
-        }}
-      >
+      <SubmitButton onClick={() => addWeight(weight, dateTime.getTime())}>
         Submit weight
       </SubmitButton>
     </Wrapper>

@@ -20,6 +20,6 @@ export default styled.button`
   }
   :focus {
     outline: none;
-    box-shadow: 0 0 2pt 1pt ${colors.inputFocus};
+    box-shadow: 0 0 2pt 1pt ${colors.focus};
   }
 `;

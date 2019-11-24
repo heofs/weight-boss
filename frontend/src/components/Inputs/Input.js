@@ -14,8 +14,8 @@ export const InputWrapper = styled.div`
     border-left: ${sizes.borderSize} solid ${colors.border};
     border-top: ${sizes.borderSize} solid ${colors.border};
     border-bottom: ${sizes.borderSize} solid ${colors.border};
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-top-left-radius: ${sizes.cornerRadius};
+    border-bottom-left-radius: ${sizes.cornerRadius};
     background: white;
     color: white;
     width: 2.5em;
@@ -29,7 +29,7 @@ export const InputWrapper = styled.div`
         return `
           border-left:  ${sizes.borderSize} solid ${colors.border};
           border-radius:  ${sizes.cornerRadius};
-          padding-left: 1rem;
+          padding-left: 1rem !default;
           `;
       }
     }}

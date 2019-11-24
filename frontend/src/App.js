@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import 'styles/index.scss';
 import { useAuth } from 'enhancers/useAuth';
 
 import styled from 'styled-components';
@@ -12,17 +11,16 @@ import Header from 'components/Header';
 import InputForm from 'components/InputForm';
 import Graph from 'components/Graph';
 
+import 'styles/index.scss';
+
 const Wrapper = styled.div`
   color: ${colors.text};
-  /* background-color: ${colors.background}; */
-  /* text-align: center; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* min-height: 100vh; */
-  /* font-size: calc(10px + 2vmin); */
   max-width: 30em;
   margin: 0 auto;
+  padding: 0 1em;
 `;
 
 const App = () => {
