@@ -4,12 +4,13 @@ import styled from 'styled-components';
 
 import { colors } from 'constants/theme';
 
-import LoginPage from 'components/LoginPage/index.js';
+import Header from './Header';
+import LoginPage from './LoginPage';
+import DataTable from './DataTable';
+import InputForm from './InputForm';
+import Graph from './Graph';
+
 import LoadingPage from 'components/LoadingPage';
-import DataTable from 'components/DataTable';
-import Header from 'components/Header';
-import InputForm from 'components/InputForm';
-import Graph from 'components/Graph';
 
 import 'styles/index.scss';
 

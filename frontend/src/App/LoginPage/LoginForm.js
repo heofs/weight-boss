@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useAuth } from 'enhancers/useAuth';
+
 import { sizes } from 'constants/theme';
-import StyledButton from './Button';
+
+import ActionButton from './Button';
 import LinkButton from './LinkButton';
 import Form from './Form';
-import Input from '../Inputs/Input';
 import ErrorMessage from './ErrorMessage';
+
+import Input from 'components/Inputs/Input';
+
 import { ReactComponent as GoogleLogo } from 'images/google-logo.svg';
 import { ReactComponent as KeyIcon } from 'images/icon-key.svg';
 import { ReactComponent as EnvelopeIcon } from 'images/icon-envelope.svg';
@@ -27,8 +31,7 @@ const CheckBox = styled.div`
 
 const LoginForm = ({ state, dispatch }) => {
   const { signin, persistSignin, signinGoogle } = useAuth();
-  // console.log(state.email.valid);
-  // console.log(state.password.valid);
+
   return (
     <>
       <Form>
@@ -70,7 +73,7 @@ const LoginForm = ({ state, dispatch }) => {
           />
           <label htmlFor="remember-id">Remember login</label>
         </CheckBox>
-        <StyledButton
+        <ActionButton
           type="submit"
           onClick={(e) => {
             e.preventDefault();
@@ -99,8 +102,8 @@ const LoginForm = ({ state, dispatch }) => {
           }}
         >
           Sign in
-        </StyledButton>
-        <StyledButton
+        </ActionButton>
+        <ActionButton
           onClick={(e) => {
             e.preventDefault();
             signinGoogle();
@@ -108,7 +111,7 @@ const LoginForm = ({ state, dispatch }) => {
           icon={GoogleLogo}
         >
           Sign in with Google
-        </StyledButton>
+        </ActionButton>
       </Form>
       <LinkButton
         onClick={(e) => {

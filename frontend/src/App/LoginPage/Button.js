@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import BaseButton from 'components/Buttons/BaseButton';
-// import { sizes } from 'constants/theme';
 
 const StyledButton = styled(BaseButton)`
   display: flex;

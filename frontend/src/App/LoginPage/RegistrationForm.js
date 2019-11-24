@@ -4,7 +4,7 @@ import { useAuth } from 'enhancers/useAuth';
 import StyledButton from './Button';
 import LinkButton from './LinkButton';
 import Form from './Form';
-import Input from '../Inputs/Input';
+import Input from 'components/Inputs/Input';
 import ErrorMessage from './ErrorMessage';
 
 const RegistrationForm = ({ state, dispatch }) => {
