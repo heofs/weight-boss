@@ -38,15 +38,16 @@ function useFirebaseAuth() {
   };
 
   const signinGoogle = async () => {
-    await googleProvider.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    auth
-      .signInWithPopup(googleProvider)
-      .then((res) => {
-        setUser(res.user);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+      auth
+        .signInWithPopup(googleProvider)
+        .then((res) => {
+          setUser(res.user);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    });
   };
 
   const sendPasswordResetEmail = (email) => {
