@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import firebase, { googleProvider } from './firebase';
+import firebase from './firebase';
 
 export const AuthContext = createContext();
 
@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
 function useFirebaseAuth() {
   const [user, setUser] = useState(null);
   const auth = firebase.auth();
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
 
   const signin = (email, password) => {
     return auth.signInWithEmailAndPassword(email, password).then((response) => {
@@ -37,7 +38,7 @@ function useFirebaseAuth() {
   };
 
   const signinGoogle = async () => {
-    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    await googleProvider.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     auth
       .signInWithPopup(googleProvider)
       .then((res) => {
