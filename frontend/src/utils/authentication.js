@@ -24,12 +24,12 @@ function useFirebaseAuth() {
     return auth.createUserWithEmailAndPassword(email, password).then((res) => {
       const user = res.user;
       setUser(user);
-      return user;
     });
   };
 
-  const persistSignin = async () =>
-    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  const persistSignin = () => {
+    return auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  };
 
   const signout = () => {
     return auth.signOut().then(() => {
@@ -38,28 +38,21 @@ function useFirebaseAuth() {
   };
 
   const signinGoogle = async () => {
-    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
-      auth
-        .signInWithPopup(googleProvider)
-        .then((res) => {
-          setUser(res.user);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-    });
+    try {
+      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      const res = await auth.signInWithPopup(googleProvider);
+      setUser(res.user);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const sendPasswordResetEmail = (email) => {
-    return auth.sendPasswordResetEmail(email).then(() => {
-      return true;
-    });
+    return auth.sendPasswordResetEmail(email);
   };
 
   const confirmPasswordReset = (code, password) => {
-    return auth.confirmPasswordReset(code, password).then(() => {
-      return true;
-    });
+    return auth.confirmPasswordReset(code, password);
   };
 
   useEffect(() => {
