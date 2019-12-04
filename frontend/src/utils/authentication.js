@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import firebase from './firebase';
+import localforage from 'utils/localforage';
 
 export const AuthContext = createContext();
 
@@ -34,13 +35,17 @@ function useFirebaseAuth() {
   const signout = () => {
     return auth.signOut().then(() => {
       setUser(false);
+      localforage.setItem('weightData', []);
     });
   };
 
   const signinGoogle = async () => {
     try {
-      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      const res = await auth.signInWithPopup(googleProvider);
+      await firebase
+        .auth()
+        .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+      const res = await firebase.auth().signInWithPopup(googleProvider);
       setUser(res.user);
     } catch (error) {
       console.log(error.message);
