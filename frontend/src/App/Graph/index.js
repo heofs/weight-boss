@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFirestore } from 'enhancers/useFirestore';
+import { useDatabase } from 'enhancers/useDatabase';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import {
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const formatXAxis = (tickItem) => dayjs(tickItem).format('DD/MM/YY');
 
 const Graph = () => {
-  const { weightData: unsortedWeight } = useFirestore();
+  const { weightData: unsortedWeight } = useDatabase();
   const [message, setMessage] = useState('');
 
   if (!unsortedWeight[0]) {

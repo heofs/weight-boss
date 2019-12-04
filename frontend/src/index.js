@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { DataProvider } from 'utils/firestore';
 
+import { DataProvider } from 'enhancers/useDatabase';
 import { AuthProvider } from 'utils/authentication';
 
 ReactDOM.render(

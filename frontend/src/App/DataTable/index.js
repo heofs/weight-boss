@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import ReactTable from 'react-table';
 
-import { useFirestore } from 'enhancers/useFirestore';
+import { useDatabase } from 'enhancers/useDatabase';
 
 import ButtonDelete from './ButtonDelete';
 
@@ -16,7 +16,7 @@ const Table = styled(ReactTable)`
 `;
 
 const DataTable = (props) => {
-  const { weightData, deleteWeight } = useFirestore();
+  const { weightData, deleteWeight } = useDatabase();
 
   if (!weightData || weightData.length < 1 || weightData.length === undefined) {
     return <p>Add weight to show history.</p>;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 
-import { useFirestore } from 'enhancers/useFirestore';
+import { useDatabase } from 'enhancers/useDatabase';
 
 import SubmitButton from 'components/Buttons/SubmitButton';
 import InputBox from './InputBox';
@@ -36,7 +36,7 @@ const InputGroup = styled.div`
 `;
 
 const InputForm = () => {
-  const { addWeight } = useFirestore();
+  const { addWeight } = useDatabase();
   const [weight, setWeight] = useState('');
   const [dateTime, setDateTime] = useState(new Date());
 

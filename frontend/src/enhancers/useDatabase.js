@@ -1,19 +1,15 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from 'enhancers/useAuth';
 
-export const DataContext = createContext();
-
-export const DataProvider = ({ children }) => {
-  const data = useFirestoreDb();
-  return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
-};
+import localforage from 'utils/localforage';
 
 const mode = 'cors';
 const baseUrl = process.env.REACT_APP_API_URL;
 
-function useFirestoreDb() {
+function useFirestoreDB() {
   const { user } = useAuth();
   const [weightData, setWeightData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const addWeight = async (weight, dateTime) => {
     const token = await user.getIdToken();
@@ -58,6 +54,13 @@ function useFirestoreDb() {
     if (user) {
       console.log('Getting new table data..');
       (async () => {
+        // IndexedDB
+        const localData = await localforage.getItem('weightData');
+        if (localData) {
+          setWeightData(localData);
+        }
+
+        // API Request
         const token = await user.getIdToken();
         const getDataUrl = baseUrl + '/getData';
         const rawResponse = await fetch(getDataUrl, {
@@ -70,14 +73,27 @@ function useFirestoreDb() {
           }),
         });
         const data = await rawResponse.json();
+
         setWeightData(data);
+        setLoading(false);
+        localforage.setItem('weightData', data);
       })();
     }
   }, [user]);
 
   return {
+    loading,
     weightData,
     addWeight,
     deleteWeight,
   };
 }
+
+export const DataContext = createContext();
+
+export const useDatabase = () => useContext(DataContext);
+
+export const DataProvider = ({ children }) => {
+  const data = useFirestoreDB();
+  return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
+};
