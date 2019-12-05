@@ -50,16 +50,28 @@ function useFirebaseAuth() {
   };
 
   const signinGoogle = async () => {
-    try {
-      await firebase
-        .auth()
-        .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    return firebase
+      .auth()
+      .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      .then(() => {
+        return firebase
+          .auth()
+          .signInWithPopup(googleProvider)
+          .then((res) => {
+            setUser(res.user);
+            setLoading(false);
+          });
+      });
+    // try {
+    //   await firebase
+    //     .auth()
+    //     .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-      const res = await firebase.auth().signInWithPopup(googleProvider);
-      setUser(res.user);
-    } catch (error) {
-      console.log(error.message);
-    }
+    //   const res = await firebase.auth().signInWithPopup(googleProvider);
+    //   setUser(res.user);
+    // } catch (error) {
+    //   console.log(error.message);
+    // }
   };
 
   const sendPasswordResetEmail = (email) => {
