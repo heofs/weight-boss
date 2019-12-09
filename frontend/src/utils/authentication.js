@@ -35,10 +35,6 @@ function useFirebaseAuth() {
       });
   };
 
-  const persistSignin = () => {
-    return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-  };
-
   const signout = () => {
     return firebase
       .auth()
@@ -52,26 +48,11 @@ function useFirebaseAuth() {
   const signinGoogle = async () => {
     return firebase
       .auth()
-      .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-      .then(() => {
-        return firebase
-          .auth()
-          .signInWithRedirect(googleProvider)
-          .then((res) => {
-            setUser(res.user);
-            setLoading(false);
-          });
+      .signInWithRedirect(googleProvider)
+      .then((res) => {
+        setUser(res.user);
+        setLoading(false);
       });
-    // try {
-    //   await firebase
-    //     .auth()
-    //     .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
-    //   const res = await firebase.auth().signInWithPopup(googleProvider);
-    //   setUser(res.user);
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
   };
 
   const sendPasswordResetEmail = (email) => {
@@ -101,7 +82,6 @@ function useFirebaseAuth() {
     loading,
     signin,
     signup,
-    persistSignin,
     signout,
     signinGoogle,
     sendPasswordResetEmail,
