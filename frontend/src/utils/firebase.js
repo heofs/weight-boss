@@ -4,7 +4,7 @@ import 'firebase/auth';
 // Set these to your own variables.
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: 'weight-boss.firebaseapp.com',
+  authDomain: 'api.weight.ofstad.io',
 };
 
 firebase.initializeApp(firebaseConfig);
