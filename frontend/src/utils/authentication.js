@@ -56,7 +56,7 @@ function useFirebaseAuth() {
       .then(() => {
         return firebase
           .auth()
-          .signInWithPopup(googleProvider)
+          .signInWithRedirect(googleProvider)
           .then((res) => {
             setUser(res.user);
             setLoading(false);
