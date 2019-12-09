@@ -15,6 +15,8 @@ function useFirebaseAuth() {
 
   const googleProvider = new firebase.auth.GoogleAuthProvider();
 
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
   const signin = (email, password) => {
     return firebase
       .auth()
