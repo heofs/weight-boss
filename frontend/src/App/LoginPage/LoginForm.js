@@ -30,7 +30,7 @@ const CheckBox = styled.div`
 `;
 
 const LoginForm = ({ state, dispatch }) => {
-  const { signin, signinGoogle } = useAuth();
+  const { signin, signinGoogle, disablePersistence } = useAuth();
 
   return (
     <>
@@ -75,9 +75,12 @@ const LoginForm = ({ state, dispatch }) => {
         </CheckBox>
         <ActionButton
           type="submit"
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
             dispatch({ type: 'setMessage', payload: false });
+            if (!state.remember) {
+              await disablePersistence();
+            }
             signin(state.email.value, state.password.value).catch(
               ({ code }) => {
                 if (

@@ -17,24 +17,24 @@ function useFirebaseAuth() {
 
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
+  const disablePersistence = () => {
+    return firebase
+      .auth()
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION);
+  };
+
   const signin = (email, password) => {
     return firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((response) => {
-        setUser(response.user);
-        return response.user;
-      });
+      .then((response) => setUser(response.user));
   };
 
   const signup = (email, password) => {
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((res) => {
-        const user = res.user;
-        setUser(user);
-      });
+      .then((res) => setUser(res.user));
   };
 
   const signout = () => {
@@ -88,5 +88,6 @@ function useFirebaseAuth() {
     signinGoogle,
     sendPasswordResetEmail,
     confirmPasswordReset,
+    disablePersistence,
   };
 }
