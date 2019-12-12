@@ -25,20 +25,13 @@ const Wrapper = styled.div`
 `;
 
 const App = () => {
-  const { user } = useAuth();
-  const [isLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (user !== null && isLoading) {
-      setLoading(false);
-    }
-  }, [user, isLoading]);
+  const { user, loading } = useAuth();
 
   return (
     <Wrapper>
       <Header />
       {(() => {
-        if (isLoading) {
+        if (loading) {
           return <LoadingPage />;
         }
         if (!user) {

@@ -10,6 +10,7 @@ function useFirestoreDB() {
   const { user } = useAuth();
   const [weightData, setWeightData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fetching, setFetching] = useState(false);
 
   const addWeight = async (weight, dateTime) => {
     const token = await user.getIdToken();
@@ -57,9 +58,10 @@ function useFirestoreDB() {
         // IndexedDB
         const localData = await localforage.getItem('weightData');
         if (localData) {
+          setLoading(false);
           setWeightData(localData);
         }
-
+        setFetching(true);
         // API Request
         const token = await user.getIdToken();
         const getDataUrl = baseUrl + '/getData';
@@ -76,6 +78,7 @@ function useFirestoreDB() {
 
         setWeightData(data);
         setLoading(false);
+        setFetching(false);
         localforage.setItem('weightData', data);
       })();
     }
@@ -83,6 +86,7 @@ function useFirestoreDB() {
 
   return {
     loading,
+    fetching,
     weightData,
     addWeight,
     deleteWeight,
