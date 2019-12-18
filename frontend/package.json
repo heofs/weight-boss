@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "dayjs": "^1.8.17",
+    "dayjs": "^1.8.18",
     "firebase": "^7.5.2",
     "localforage": "^1.7.3",
     "node-sass": "^4.13.0",
