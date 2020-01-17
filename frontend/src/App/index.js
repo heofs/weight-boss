@@ -39,8 +39,8 @@ const App = () => {
         }
         return (
           <>
-            <InputForm />
-            <Graph height={300} width={500} />
+            {/* <InputForm />
+            <Graph height={300} width={500} /> */}
             <DataTable />
           </>
         );

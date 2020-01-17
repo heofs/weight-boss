@@ -7,6 +7,7 @@ import { useDatabase } from 'enhancers/useDatabase';
 import { useTable, useSortBy } from 'react-table';
 
 import ButtonDelete from './ButtonDelete';
+import { ReactComponent as IconSortNeutral } from 'images/icon_sort_neutral.svg';
 
 const Table = styled.table`
   width: 100%;
@@ -25,10 +26,6 @@ const Table = styled.table`
     }
   }
 
-  th {
-    background: #545454;
-  }
-
   th,
   td {
     margin: 0;
@@ -39,6 +36,24 @@ const Table = styled.table`
     :last-child {
       border-right: 0;
     }
+  }
+
+  th {
+    background: #545454;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.5;
+    height: 2em;
+  }
+`;
+
+const Icon = styled.span`
+  margin: 0;
+  height: 1em;
+  vertical-align: middle;
+  svg {
+    height: 1em;
+    padding: 0 1em;
   }
 `;
 
@@ -122,10 +137,15 @@ const DataTable = () => {
                   column.canSort &&
                   column.toggleSortBy(!column.isSortedDesc, false)
                 }
+                valign="middle"
               >
                 {column.render('Header')}
 
-                {column.canSort && !column.isSorted && <span> X</span>}
+                {column.canSort && !column.isSorted && (
+                  <Icon>
+                    <IconSortNeutral />
+                  </Icon>
+                )}
                 {column.canSort && column.isSorted && (
                   <span>{column.isSortedDesc ? ' 🔽' : ' 🔼'}</span>
                 )}
