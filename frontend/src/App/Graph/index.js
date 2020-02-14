@@ -27,28 +27,17 @@ const Graph = () => {
   const { weightData: unsortedWeight } = useDatabase();
   const [message, setMessage] = useState('');
 
-  if (!unsortedWeight[0]) {
-    return <p>Add weight to show graph.</p>;
-  }
   const weightData = unsortedWeight.sort((a, b) => a.dateTime - b.dateTime);
+  const weightValues = weightData.map((data) => data.weight);
+  const yMax = Math.max(...weightValues) + 3;
+  const yMin = Math.min(...weightValues) - 3;
 
-  const yMax =
-    weightData.reduce(
-      (acc, next) => (acc < next.weight ? next.weight : acc),
-      0
-    ) + 5;
-  const yMin =
-    weightData.reduce(
-      (acc, next) => (acc > next.weight ? next.weight : acc),
-      Number.POSITIVE_INFINITY
-    ) - 5;
-
-  const generateTicks = () => {
+  const generateTicksYAxis = () => {
     const ticks = [];
     const min = parseInt(yMin);
     const max = parseInt(yMax);
     for (let i = min + 1; i < max; i++) {
-      if (i % 5 === 0) {
+      if (i % 2 === 0) {
         ticks.push(i);
       }
     }
@@ -83,7 +72,7 @@ const Graph = () => {
             name="Time"
             type="number"
             dataKey="dateTime"
-            domain={['auto', 'auto']}
+            domain={['dataMin', 'dataMax']}
             tickFormatter={formatXAxis}
             dy={10}
             stroke="white"
@@ -93,9 +82,9 @@ const Graph = () => {
             type="number"
             dataKey="weight"
             domain={[yMin, yMax]}
-            ticks={generateTicks()}
+            ticks={generateTicksYAxis()}
             stroke="white"
-            dx={-10}
+            dx={-5}
           />
           <Tooltip
             content={handleTooltip}
