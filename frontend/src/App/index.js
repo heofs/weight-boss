@@ -6,11 +6,10 @@ import { colors } from 'constants/theme';
 
 import Header from './Header';
 import LoginPage from './LoginPage';
-import DataTable from './DataTable';
 import InputForm from './InputForm';
-import Graph from './Graph';
 
 import LoadingPage from 'components/LoadingPage';
+import DataView from './DataView';
 
 import 'styles/index.scss';
 
@@ -47,8 +46,7 @@ const App = () => {
         return (
           <>
             <InputForm />
-            <Graph height={300} width={500} />
-            <DataTable />
+            <DataView />
           </>
         );
       })()}
