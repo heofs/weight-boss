@@ -3,6 +3,7 @@ export const colors = {
   darkTurquoise: '#499d9b',
   red: '#dc3545',
   beige: `#e5daca`,
+  darkBeige: `#d6c6ae`,
   grey: '#7395AE',
   dark: '#282c34',
   blue: 'dodgerblue',
@@ -33,5 +34,5 @@ export const device = {
 };
 
 export const animations = {
-  speed: '0.2s',
+  speed: '0.1s',
 };

@@ -7,6 +7,7 @@ import { useDatabase } from 'enhancers/useDatabase';
 
 const DataView = () => {
   const { loading, weightData } = useDatabase();
+
   if (loading) {
     return <p>Loading...</p>;
   }
