@@ -7,6 +7,7 @@ import { colors } from 'constants/theme';
 import Header from './Header';
 import LoginPage from './LoginPage';
 import InputForm from './InputForm';
+import Footer from './Footer';
 
 import LoadingPage from 'components/LoadingPage';
 import DataView from './DataView';
@@ -50,6 +51,7 @@ const App = () => {
           </>
         );
       })()}
+      <Footer />
     </Wrapper>
   );
 };
