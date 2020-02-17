@@ -57,6 +57,7 @@ function useFirestoreDB() {
         // IndexedDB
         const localData = await localforage.getItem('weightData');
         if (localData) {
+          setLoading(false);
           setWeightData(localData);
         }
 
