@@ -63,9 +63,10 @@ const Graph = () => {
           onMouseLeave={() => setMessage('')}
         >
           <Line
-            type="monotone"
+            type="monotoneX"
             dataKey="weight"
             stroke="#8884d8"
+            dot={false}
             animationDuration={400}
           />
           <XAxis
