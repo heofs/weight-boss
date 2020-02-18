@@ -3,7 +3,7 @@ import { colors, sizes } from 'constants/theme';
 
 const Table = styled.table`
   width: 100%;
-  margin: 2em 0;
+  margin: 4em 0 0;
   border-spacing: 0;
   color: ${colors.dark};
   font-weight: 500;

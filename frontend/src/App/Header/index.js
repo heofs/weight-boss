@@ -9,7 +9,7 @@ const Wrapper = styled.header`
 
   width: 100%;
   color: ${colors.text};
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 `;
 
 const LogOutContainer = styled.div`

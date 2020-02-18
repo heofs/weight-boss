@@ -9,7 +9,7 @@ const Wrapper = styled.footer`
 const Footer = (props) => {
   return (
     <Wrapper>
-      <p>Made by Josefine and Henning</p>
+      <p>Made with &#10084; by Josefine and Henning</p>
     </Wrapper>
   );
 };
