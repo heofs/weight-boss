@@ -8,6 +8,7 @@ import Header from './Header';
 import LoginPage from './LoginPage';
 import InputForm from './InputForm';
 import Footer from './Footer';
+import OfflineBanner from './OfflineBanner';
 
 import LoadingPage from 'components/LoadingPage';
 import DataView from './DataView';
@@ -51,6 +52,7 @@ const App = () => {
           </>
         );
       })()}
+      <OfflineBanner />
       <Footer />
     </Wrapper>
   );

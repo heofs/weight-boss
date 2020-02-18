@@ -10,6 +10,7 @@ function useFirestoreDB() {
   const { user } = useAuth();
   const [weightData, setWeightData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isOffline, setOffline] = useState(false);
 
   const addWeight = async (weight, dateTime) => {
     const token = await user.getIdToken();
@@ -25,10 +26,14 @@ function useFirestoreDB() {
         'Content-Type': 'application/json',
       }),
       body: JSON.stringify(bodyData),
-    }).then(async (res) => {
-      const json = await res.json();
-      setWeightData([...weightData, json]);
-    });
+    })
+      .then(async (res) => {
+        const json = await res.json();
+        setWeightData([...weightData, json]);
+      })
+      .catch(() => {
+        setOffline(true);
+      });
   };
 
   const deleteWeight = async (id) => {
@@ -64,20 +69,24 @@ function useFirestoreDB() {
         // API Request
         const token = await user.getIdToken();
         const getDataUrl = baseUrl + '/getData';
-        const rawResponse = await fetch(getDataUrl, {
-          method: 'GET',
-          mode,
-          headers: new Headers({
-            Accept: 'application/json',
-            Authorization: 'Bearer ' + token,
-            'Content-Type': 'application/json',
-          }),
-        });
-        const data = await rawResponse.json();
-
-        setWeightData(data);
+        try {
+          const rawResponse = await fetch(getDataUrl, {
+            method: 'GET',
+            mode,
+            headers: new Headers({
+              Accept: 'application/json',
+              Authorization: 'Bearer ' + token,
+              'Content-Type': 'application/json',
+            }),
+          });
+          const data = await rawResponse.json();
+          setWeightData(data);
+          localforage.setItem('weightData', data);
+        } catch (error) {
+          setOffline(true);
+        }
+        setOffline(false);
         setLoading(false);
-        localforage.setItem('weightData', data);
       })();
     }
   }, [user]);
@@ -87,6 +96,7 @@ function useFirestoreDB() {
     weightData,
     addWeight,
     deleteWeight,
+    isOffline,
   };
 }
 
