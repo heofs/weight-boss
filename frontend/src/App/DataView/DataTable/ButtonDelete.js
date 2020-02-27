@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useToasts } from 'react-toast-notifications';
 
 import { animations } from 'constants/theme';
 import { ReactComponent as IconTrash } from 'images/icon-trash.svg';
@@ -23,8 +24,15 @@ const Button = styled.button`
 `;
 
 const ButtonDelete = ({ onConfirm }) => {
+  const { addToast } = useToasts();
+
+  const onDelete = () => {
+    onConfirm().then(() => {
+      addToast('Saved Successfully', { appearance: 'success' });
+    });
+  };
   return (
-    <Button onClick={onConfirm}>
+    <Button onClick={onDelete}>
       <IconTrash />
     </Button>
   );
