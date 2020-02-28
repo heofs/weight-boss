@@ -48,7 +48,9 @@ app.get('/status', async (req, res) => {
 });
 
 app.use(authenticate);
-app.use(limitRequests);
+if (!process.env.NODE_ENV === 'dev') {
+  app.use(limitRequests);
+}
 
 app.post('/addWeight', async (req, res) => {
   const userId = req.user.uid;
