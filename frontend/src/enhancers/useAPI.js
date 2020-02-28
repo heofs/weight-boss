@@ -6,7 +6,7 @@ import localforage from 'utils/localforage';
 const mode = 'cors';
 const baseUrl = process.env.REACT_APP_API_URL;
 
-function useFirestoreDB() {
+function useFirestoreAPI() {
   const { user } = useAuth();
   const [weightData, setWeightData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ function useFirestoreDB() {
     const addWeightUrl = baseUrl + '/addWeight';
     const bodyData = { weight, dateTime };
 
-    fetch(addWeightUrl, {
+    return fetch(addWeightUrl, {
       method: 'POST',
       mode,
       headers: new Headers({
@@ -32,6 +32,8 @@ function useFirestoreDB() {
   };
 
   const deleteWeight = async (id) => {
+    const newWeightData = weightData.filter((row) => row.id !== id);
+    setWeightData(newWeightData);
     const token = await user.getIdToken();
     const deleteWeightUrl = baseUrl + '/deleteWeight';
     const rawResponse = await fetch(deleteWeightUrl, {
@@ -44,8 +46,6 @@ function useFirestoreDB() {
       }),
       body: JSON.stringify({ id }),
     });
-    const newWeightData = weightData.filter((row) => row.id !== id);
-    setWeightData(newWeightData);
     const data = await rawResponse.json();
     return data;
   };
@@ -77,10 +77,19 @@ function useFirestoreDB() {
 
         setWeightData(data);
         setLoading(false);
-        localforage.setItem('weightData', data);
       })();
     }
   }, [user]);
+
+  useEffect(() => {
+    localforage.setItem('weightData', weightData);
+  }, [weightData]);
+
+  useEffect(() => {
+    localforage.getItem('weightData', (err, data) => {
+      setWeightData(data);
+    });
+  }, []);
 
   return {
     loading,
@@ -92,9 +101,9 @@ function useFirestoreDB() {
 
 export const DataContext = createContext();
 
-export const useDatabase = () => useContext(DataContext);
+export const useAPI = () => useContext(DataContext);
 
 export const DataProvider = ({ children }) => {
-  const data = useFirestoreDB();
+  const data = useFirestoreAPI();
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
 };

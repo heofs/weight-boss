@@ -2,18 +2,14 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { useTable, useSortBy } from 'react-table';
 
-import { useDatabase } from 'enhancers/useDatabase';
+import { useAPI } from 'enhancers/useAPI';
 
 import Table from './Table';
 import ButtonDelete from './ButtonDelete';
 import SortIcon from './SortIcon';
 
 const DataTable = () => {
-  const { deleteWeight, weightData } = useDatabase();
-  // const weightData = [
-  //   { id: 'CvIkfyV7VGxvhu2UwlM5', weight: 88, dateTime: 1581802441000 },
-  //   { id: 'CvIkfyV7VGxu2UwlM5', weight: 89, dateTime: 1581803441000 },
-  // ];
+  const { deleteWeight, weightData } = useAPI();
 
   const columns = React.useMemo(
     () => [

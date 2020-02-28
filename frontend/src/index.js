@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { DataProvider } from 'enhancers/useDatabase';
+import { DataProvider } from 'enhancers/useAPI';
 import { AuthProvider } from 'utils/authentication';
 
 ReactDOM.render(

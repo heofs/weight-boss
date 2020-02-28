@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 
-import { useDatabase } from 'enhancers/useDatabase';
+import { useAPI } from 'enhancers/useAPI';
 
 import SubmitButton from 'components/Buttons/SubmitButton';
 import InputBox from './InputBox';
@@ -36,7 +36,7 @@ const InputGroup = styled.div`
 `;
 
 const InputForm = () => {
-  const { addWeight } = useDatabase();
+  const { addWeight } = useAPI();
   const [weight, setWeight] = useState('');
   const [dateTime, setDateTime] = useState(new Date());
 
@@ -80,7 +80,7 @@ const InputForm = () => {
         </InputGroup>
       </FlexRow>
 
-      <SubmitButton onClick={() => addWeight(weight, dateTime.getTime())}>
+      <SubmitButton onSubmit={() => addWeight(weight, dateTime.getTime())}>
         Submit weight
       </SubmitButton>
     </Wrapper>

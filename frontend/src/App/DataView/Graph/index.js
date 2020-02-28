@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDatabase } from 'enhancers/useDatabase';
+import { useAPI } from 'enhancers/useAPI';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import {
@@ -52,7 +52,7 @@ const filterFunction = {
 };
 
 const Graph = () => {
-  const { weightData: unsortedWeight } = useDatabase();
+  const { weightData: unsortedWeight } = useAPI();
   const [message, setMessage] = useState('');
   const [filter, setFilter] = useState('all');
   const sortedData = unsortedWeight.sort((a, b) => a.dateTime - b.dateTime);

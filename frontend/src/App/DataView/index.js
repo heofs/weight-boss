@@ -3,10 +3,10 @@ import React from 'react';
 import Graph from './Graph';
 import DataTable from './DataTable';
 
-import { useDatabase } from 'enhancers/useDatabase';
+import { useAPI } from 'enhancers/useAPI';
 
 const DataView = () => {
-  const { loading, weightData } = useDatabase();
+  const { loading, weightData } = useAPI();
 
   if (loading) {
     return <p>Loading...</p>;

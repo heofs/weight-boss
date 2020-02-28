@@ -22,4 +22,7 @@ export default styled.button`
     outline: none;
     box-shadow: 0 0 2pt 1pt ${colors.focus};
   }
+  :active {
+    background-color: #499dab;
+  }
 `;
