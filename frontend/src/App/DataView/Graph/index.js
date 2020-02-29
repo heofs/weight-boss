@@ -23,13 +23,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const StyledChart = styled(LineChart)`
-  /* background-color: red;
-  svg {
-    fill: red;
-  } */
-`;
-
 const formatXAxis = (tickItem) => dayjs(tickItem).format('DD/MM/YY');
 
 const filterFunction = {
@@ -76,12 +69,14 @@ const Graph = () => {
     return [min, ...ticks, max];
   };
 
-  const handleTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload) {
-      setMessage(
-        `${payload[0].value}kg at ${dayjs(label).format('DD/MM/YY - HH:mm')}`
-      );
+      const message = `${payload[0].value}kg at ${dayjs(label).format(
+        'DD/MM/YY - HH:mm'
+      )}`;
+      return <div>{message}</div>;
     }
+
     return null;
   };
 
@@ -114,7 +109,7 @@ const Graph = () => {
       </LinkButton>
       <p>{!weightData.length ? 'No Data' : message}</p>
       <ResponsiveContainer width={'100%'} height={300}>
-        <StyledChart
+        <LineChart
           data={weightData}
           margin={{ top: 5, right: 30, bottom: 5, left: -20 }}
           onMouseLeave={() => setMessage('')}
@@ -145,10 +140,11 @@ const Graph = () => {
             dx={-5}
           />
           <Tooltip
-            content={handleTooltip}
+            position={{ y: -15 }}
+            content={CustomTooltip}
             cursor={{ strokeWidth: 1, strokeDasharray: '1 5' }}
           />
-        </StyledChart>
+        </LineChart>
       </ResponsiveContainer>
     </Wrapper>
   );
