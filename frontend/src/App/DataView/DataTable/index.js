@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { useTable, useSortBy } from 'react-table';
-
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useAPI } from 'enhancers/useAPI';
 
 import Table from './Table';
@@ -89,16 +89,26 @@ const DataTable = () => {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
-              })}
-            </tr>
-          );
-        })}
+        <TransitionGroup component={null}>
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <CSSTransition
+                key={row.original.id}
+                timeout={200}
+                classNames="rowTransition"
+              >
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    );
+                  })}
+                </tr>
+              </CSSTransition>
+            );
+          })}
+        </TransitionGroup>
       </tbody>
     </Table>
   );
