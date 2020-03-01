@@ -29,8 +29,12 @@ export const InputWrapper = styled.div`
         return `
           border-left:  ${sizes.borderSize} solid ${colors.border};
           border-radius:  ${sizes.cornerRadius};
-          padding-left: 1rem !default;
-          `;
+        `;
+      }
+    }}
+    ${({ type, hasIcon }) => {
+      if ((type === 'password' || type === 'email') && !hasIcon) {
+        return `padding-left: 1rem;`;
       }
     }}
   }
@@ -87,7 +91,7 @@ const Input = (props) => {
   } = props;
 
   return (
-    <InputWrapper hasIcon={Boolean(Icon)}>
+    <InputWrapper hasIcon={Boolean(Icon)} type={type}>
       {Icon && <Icon />}
       <InputBox
         id={id}
