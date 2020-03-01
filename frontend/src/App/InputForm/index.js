@@ -7,7 +7,6 @@ import { useAPI } from 'enhancers/useAPI';
 import SubmitButton from 'components/Buttons/SubmitButton';
 import InputBox from './InputBox';
 
-// import { ReactComponent as Box } from 'images/box.svg';
 import { ReactComponent as IonWeight } from 'images/icon-weight.svg';
 import { ReactComponent as IconClock } from 'images/icon-clock.svg';
 import { ReactComponent as IconCalendar } from 'images/icon-calendar.svg';
@@ -48,6 +47,7 @@ const InputForm = () => {
           <InputBox
             type="number"
             name="weight"
+            min="0"
             id="weightId"
             placeholder="weight"
             value={weight}
@@ -62,6 +62,7 @@ const InputForm = () => {
             customInput={<InputBox />}
             withPortal={true}
             dateFormat="dd/MM/yy"
+            todayButton="Today"
           />
         </InputGroup>
         <InputGroup>

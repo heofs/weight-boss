@@ -32,6 +32,7 @@ class InputBox extends React.Component {
       onClick,
       type,
       name,
+      ...otherProps
     } = this.props;
 
     return (
@@ -45,6 +46,7 @@ class InputBox extends React.Component {
           onClick={onClick}
           type={type}
           name={name}
+          {...otherProps}
         />
       </StyledWrapper>
     );
