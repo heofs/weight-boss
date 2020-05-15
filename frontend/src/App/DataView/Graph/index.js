@@ -141,7 +141,7 @@ const Graph = () => {
             type="number"
             dataKey="dateTime"
             domain={['dataMin', 'dataMax']}
-            ticks={useMemo(() => generateTicks(5, xMin, xMax), [xMin, xMax])}
+            ticks={useMemo(() => generateTicks(4, xMin, xMax), [xMin, xMax])}
             tickFormatter={formatXAxis}
             stroke="white"
             dy={10}
