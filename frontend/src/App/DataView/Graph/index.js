@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAPI } from 'enhancers/useAPI';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
@@ -53,17 +53,20 @@ const Graph = () => {
     filterFunction[filter](sortedData)
   );
 
-  const weightValues = weightData.map((data) => data.weight);
-  const yMax = Math.max(...weightValues) + 1;
-  const yMin = Math.min(...weightValues) - 2;
+  const weights = weightData.map((data) => data.weight);
+  const yMax = Math.max(...weights) + 2;
+  const yMin = Math.min(...weights) - 2;
+  const timestamps = weightData.map((data) => data.dateTime);
+  const xMax = Math.max(...timestamps);
+  const xMin = Math.min(...timestamps);
 
-  const generateTicksYAxis = () => {
+  const generateTicks = (resolution, minVal, maxVal) => {
     const ticks = [];
-    const min = parseInt(yMin);
-    const max = parseInt(yMax);
-
+    const min = parseInt(minVal);
+    const max = parseInt(maxVal);
     const diff = max - min;
-    const increment = parseInt(diff / 6);
+
+    const increment = parseInt(diff / resolution);
     const incNum = increment ? increment : 1;
 
     for (let i = min; i <= max; i = i + incNum) {
@@ -79,7 +82,6 @@ const Graph = () => {
       )}`;
       return <div>{message}</div>;
     }
-
     return null;
   };
 
@@ -129,6 +131,7 @@ const Graph = () => {
             type="number"
             dataKey="dateTime"
             domain={['dataMin', 'dataMax']}
+            ticks={useMemo(() => generateTicks(5, xMin, xMax), [xMin, xMax])}
             tickFormatter={formatXAxis}
             stroke="white"
             dy={10}
@@ -138,7 +141,7 @@ const Graph = () => {
             type="number"
             dataKey="weight"
             domain={[yMin, yMax]}
-            ticks={generateTicksYAxis()}
+            ticks={useMemo(() => generateTicks(6, yMin, yMax), [yMin, yMax])}
             stroke="white"
             dx={-5}
           />
