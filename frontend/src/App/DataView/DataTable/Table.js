@@ -7,6 +7,7 @@ const Table = styled.table`
   border-spacing: 0;
   color: ${colors.dark};
   font-weight: 500;
+
   tr {
     background: ${colors.beige};
     :nth-child(even) {
@@ -30,6 +31,12 @@ const Table = styled.table`
     }
     :last-child {
       border-radius: 0px ${sizes.cornerRadius} 0px 0px;
+    }
+  }
+
+  thead {
+    tr:first-child {
+      background: none;
     }
   }
 

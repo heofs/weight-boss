@@ -23,7 +23,7 @@ export const sizes = {
   textSize: '1.2rem',
   smallerText: '0.8rem',
   borderSize: '2px',
-  cornerRadius: '4px',
+  cornerRadius: '5px',
   varticalMargin: '1rem',
 };
 
