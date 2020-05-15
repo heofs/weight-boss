@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { colors, animations } from 'constants/theme';
 import BaseButton from 'components/Buttons/BaseButton';
 
 const Button = styled(BaseButton)`
@@ -8,6 +9,10 @@ const Button = styled(BaseButton)`
   margin: 2rem 0em;
   padding: 1em 2em;
   width: 65%;
+  ::-moz-focus-inner {
+    border: 0;
+  }
+  ${(props) => props.warning && `color: ${colors.danger};`};
 `;
 
 const SubmitButton = ({ onSubmit, children, ...otherProps }) => {
@@ -15,7 +20,17 @@ const SubmitButton = ({ onSubmit, children, ...otherProps }) => {
 
   const onClick = () => {
     setState('loading');
-    onSubmit().then(() => setState('ready'));
+    onSubmit().then((x) => {
+      if (x === 'missing-weight') {
+        setState(x);
+        return;
+      }
+      setState('ready');
+    });
+  };
+
+  const setReady = () => {
+    setTimeout(() => setState('ready'), 1600);
   };
 
   switch (state) {
@@ -23,6 +38,13 @@ const SubmitButton = ({ onSubmit, children, ...otherProps }) => {
       return (
         <Button {...otherProps} disabled={true}>
           Saving...
+        </Button>
+      );
+    case 'missing-weight':
+      setReady();
+      return (
+        <Button {...otherProps} disabled={true} warning={true}>
+          No weight added
         </Button>
       );
     default:

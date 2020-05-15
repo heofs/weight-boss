@@ -39,6 +39,15 @@ const InputForm = () => {
   const [weight, setWeight] = useState('');
   const [dateTime, setDateTime] = useState(new Date());
 
+  const postWeight = () => {
+    if (weight) {
+      return addWeight(weight, dateTime.getTime());
+    }
+    return new Promise(function (resolve, reject) {
+      setTimeout(() => resolve('missing-weight'), 0);
+    });
+  };
+
   return (
     <Wrapper>
       <FlexRow>
@@ -81,9 +90,7 @@ const InputForm = () => {
         </InputGroup>
       </FlexRow>
 
-      <SubmitButton onSubmit={() => addWeight(weight, dateTime.getTime())}>
-        Submit weight
-      </SubmitButton>
+      <SubmitButton onSubmit={postWeight}>Submit weight</SubmitButton>
     </Wrapper>
   );
 };
