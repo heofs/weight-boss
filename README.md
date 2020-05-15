@@ -1,13 +1,13 @@
-# Weight logging with React and Cloud Functions
+<div align="center">
+<img width="250" height="250" src="https://storage.googleapis.com/ofstad-io-bucket/weighing-scale-tool.png" alt="scale">
+	<h1>Weight Boss</h1>
+	<p>
+		Weight logging with React and Serverless Functions.
+	</p>
+</div>
 
-## Environment Variables
+## Environment setup
 
-Download file from service accounts in Firebase
+### [Frontend](frontend/README.md)
 
-`export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-key.json"`
-
-## `npm run watch`
-
-Will start function in watch mode.
-
-Run while in folder `api/functions/`.
+### [API](api/README.md)
