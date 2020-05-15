@@ -10,6 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import { colors } from 'constants/theme';
 import LinkButton from 'components/Buttons/LinkButton';
 
 const Wrapper = styled.div`
@@ -122,7 +123,7 @@ const Graph = () => {
           <Line
             type="monotoneX"
             dataKey="weight"
-            stroke="#8884d8"
+            stroke={colors.violet}
             dot={false}
             animationDuration={400}
           />

@@ -6,6 +6,7 @@ export const colors = {
   darkBeige: `#d6c6ae`,
   grey: '#7395AE',
   dark: '#282c34',
+  violet: '#8884d8',
   blue: 'dodgerblue',
   border: '#ced4da',
 };
