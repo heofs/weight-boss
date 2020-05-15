@@ -54,19 +54,22 @@ const Graph = () => {
   );
 
   const weightValues = weightData.map((data) => data.weight);
-  const yMax = Math.max(...weightValues) + 2;
+  const yMax = Math.max(...weightValues) + 1;
   const yMin = Math.min(...weightValues) - 2;
 
   const generateTicksYAxis = () => {
     const ticks = [];
     const min = parseInt(yMin);
     const max = parseInt(yMax);
-    for (let i = min + 1; i < max; i++) {
-      if (i % 2 === 0) {
-        ticks.push(i);
-      }
+
+    const diff = max - min;
+    const increment = parseInt(diff / 6);
+    const incNum = increment ? increment : 1;
+
+    for (let i = min; i <= max; i = i + incNum) {
+      ticks.push(i);
     }
-    return [min, ...ticks, max];
+    return ticks;
   };
 
   const CustomTooltip = ({ active, payload, label }) => {
