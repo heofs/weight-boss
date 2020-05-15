@@ -28,9 +28,10 @@ export const sizes = {
 };
 
 export const device = {
-  mobile: `(min-width: 425px)`,
-  tablet: `(min-width: 768px)`,
-  desktop: `(min-width: 1100px)`,
+  mobile: `screen and (min-width: 425px)`,
+  tablet: `screen and (min-width: 768px)`,
+  desktop: `screen and (min-width: 1100px)`,
+  desktopLg: `screen and (min-width: 1500px)`,
 };
 
 export const animations = {

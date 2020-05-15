@@ -4,21 +4,17 @@ import { InputWrapper, InputBox as Input } from 'components/Inputs/Input';
 import { device } from 'constants/theme';
 
 const StyledWrapper = styled(InputWrapper)`
-  width: 6rem;
   height: 2em;
-  width: 5em;
+  width: 5.5em;
   @media ${device.mobile} {
-    width: 8rem;
+    width: 7em;
   }
 `;
 
 const StyledInput = styled(Input)`
-  font-size: 0.8rem;
+  font-size: 1.2em;
   text-align: center;
   padding-left: 0;
-  @media ${device.mobile} {
-    font-size: 1.2rem;
-  }
 `;
 
 class InputBox extends React.Component {
