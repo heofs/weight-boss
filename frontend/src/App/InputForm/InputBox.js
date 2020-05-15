@@ -5,7 +5,7 @@ import { device } from 'constants/theme';
 
 const StyledWrapper = styled(InputWrapper)`
   height: 2em;
-  width: 5.5em;
+  width: 5.8em;
   @media ${device.mobile} {
     width: 7em;
   }

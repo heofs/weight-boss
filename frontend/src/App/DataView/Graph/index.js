@@ -14,9 +14,9 @@ import { colors } from 'constants/theme';
 import LinkButton from 'components/Buttons/LinkButton';
 
 const Wrapper = styled.div`
-  margin: 0 0 0 1em;
+  margin-bottom: 1em;
   width: 100%;
-  padding: 0 1em;
+  padding: 1em 1em;
   height: 300px;
   p {
     height: 1rem;
@@ -44,6 +44,10 @@ const filterFunction = {
       return dayjs(el.dateTime).isAfter(lessOneYear);
     }),
 };
+
+const ButtonGroup = styled.div`
+  margin-bottom: 1em;
+`;
 
 const Graph = () => {
   const { weightData: unsortedWeight } = useAPI();
@@ -92,27 +96,32 @@ const Graph = () => {
 
   return (
     <Wrapper>
-      <LinkButton
-        onClick={() => setFilter('last1m')}
-        disabled={filter === 'last1m'}
-      >
-        Last month
-      </LinkButton>
-      <LinkButton
-        onClick={() => setFilter('last3m')}
-        disabled={filter === 'last3m'}
-      >
-        Last 3 months
-      </LinkButton>
-      <LinkButton
-        onClick={() => setFilter('last1y')}
-        disabled={filter === 'last1y'}
-      >
-        Last year
-      </LinkButton>
-      <LinkButton onClick={() => setFilter('all')} disabled={filter === 'all'}>
-        Show all
-      </LinkButton>
+      <ButtonGroup>
+        <LinkButton
+          onClick={() => setFilter('last1m')}
+          disabled={filter === 'last1m'}
+        >
+          Last month
+        </LinkButton>
+        <LinkButton
+          onClick={() => setFilter('last3m')}
+          disabled={filter === 'last3m'}
+        >
+          Last 3 months
+        </LinkButton>
+        <LinkButton
+          onClick={() => setFilter('last1y')}
+          disabled={filter === 'last1y'}
+        >
+          Last year
+        </LinkButton>
+        <LinkButton
+          onClick={() => setFilter('all')}
+          disabled={filter === 'all'}
+        >
+          Show all
+        </LinkButton>
+      </ButtonGroup>
       <p>{!weightData.length ? 'No Data' : message}</p>
       <ResponsiveContainer width={'100%'} height={300}>
         <LineChart

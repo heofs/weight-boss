@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { colors, animations } from 'constants/theme';
+import { colors } from 'constants/theme';
 import BaseButton from 'components/Buttons/BaseButton';
 
 const Button = styled(BaseButton)`
