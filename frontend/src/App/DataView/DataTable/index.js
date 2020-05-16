@@ -90,7 +90,7 @@ const DataTable = () => {
       </thead>
       <tbody {...getTableBodyProps()}>
         <TransitionGroup component={null}>
-          {rows.map((row, i) => {
+          {rows.map((row) => {
             prepareRow(row);
             return (
               <CSSTransition
@@ -99,11 +99,9 @@ const DataTable = () => {
                 classNames="rowTransition"
               >
                 <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
-                    return (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    );
-                  })}
+                  {row.cells.map((cell) => (
+                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  ))}
                 </tr>
               </CSSTransition>
             );
