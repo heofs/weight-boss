@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 
 import { useAPI } from 'enhancers/useAPI';
 
-import SubmitButton from 'components/Buttons/SubmitButton';
+import SubmitButton from 'App/InputForm/SubmitButton';
 import InputBox from './InputBox';
 
 import { ReactComponent as IonWeight } from 'images/icon-weight.svg';
@@ -38,15 +38,6 @@ const InputForm = () => {
   const { addWeight } = useAPI();
   const [weight, setWeight] = useState('');
   const [dateTime, setDateTime] = useState(new Date());
-
-  const postWeight = () => {
-    if (weight) {
-      return addWeight(weight, dateTime.getTime());
-    }
-    return new Promise(function (resolve, reject) {
-      setTimeout(() => resolve('missing-weight'), 0);
-    });
-  };
 
   return (
     <Wrapper>
@@ -90,7 +81,9 @@ const InputForm = () => {
         </InputGroup>
       </FlexRow>
 
-      <SubmitButton onSubmit={postWeight}>Submit weight</SubmitButton>
+      <SubmitButton addWeight={addWeight} weight={weight} dateTime={dateTime}>
+        Submit weight
+      </SubmitButton>
     </Wrapper>
   );
 };

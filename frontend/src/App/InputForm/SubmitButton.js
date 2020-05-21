@@ -15,16 +15,22 @@ const Button = styled(BaseButton)`
   ${(props) => props.warning && `color: ${colors.danger};`};
 `;
 
-const SubmitButton = ({ onSubmit, children, ...otherProps }) => {
+const SubmitButton = ({
+  addWeight,
+  weight,
+  dateTime,
+  children,
+  ...otherProps
+}) => {
   const [state, setState] = useState('ready');
 
   const onClick = () => {
+    if (weight === '' || weight.includes(',')) {
+      setState('error');
+      return;
+    }
     setState('loading');
-    onSubmit().then((x) => {
-      if (x === 'missing-weight') {
-        setState(x);
-        return;
-      }
+    addWeight(weight, dateTime.getTime()).then((x) => {
       setState('ready');
     });
   };
@@ -40,11 +46,11 @@ const SubmitButton = ({ onSubmit, children, ...otherProps }) => {
           Saving...
         </Button>
       );
-    case 'missing-weight':
+    case 'error':
       setReady();
       return (
         <Button {...otherProps} disabled={true} warning={true}>
-          No weight added
+          Enter weight correctly
         </Button>
       );
     default:
@@ -58,7 +64,9 @@ const SubmitButton = ({ onSubmit, children, ...otherProps }) => {
 
 SubmitButton.propTypes = {
   children: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func,
+  addWeight: PropTypes.func,
+  weight: PropTypes.string,
+  dateTime: PropTypes.object,
 };
 
 export default SubmitButton;
