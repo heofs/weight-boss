@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@google-cloud/functions-framework": "^1.5.1",
-    "eslint": "^7.0.0",
+    "eslint": "^7.1.0",
     "eslint-plugin-promise": "latest",
     "firebase-functions-test": "latest",
     "npm-watch": "^0.6.0"

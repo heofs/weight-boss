@@ -5,11 +5,20 @@ import * as serviceWorker from './serviceWorker';
 
 import { DataProvider } from 'enhancers/useAPI';
 import { AuthProvider } from 'utils/authentication';
+import { ToastProvider } from 'react-toast-notifications';
+
+import Snack from 'components/SnackBar';
 
 ReactDOM.render(
   <AuthProvider>
     <DataProvider>
-      <App />
+      <ToastProvider
+        autoDismiss
+        placement="bottom-right"
+        components={{ Toast: Snack }}
+      >
+        <App />
+      </ToastProvider>
     </DataProvider>
   </AuthProvider>,
   document.getElementById('root')

@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useTable, useSortBy } from 'react-table';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useAPI } from 'enhancers/useAPI';
+import { useToasts } from 'react-toast-notifications';
 
 import Table from './Table';
 import ButtonDelete from './ButtonDelete';
@@ -10,6 +11,7 @@ import SortIcon from './SortIcon';
 
 const DataTable = () => {
   const { deleteWeight, weightData } = useAPI();
+  const { addToast } = useToasts();
 
   const columns = React.useMemo(
     () => [
@@ -35,12 +37,17 @@ const DataTable = () => {
               textAlign: 'center',
             }}
           >
-            <ButtonDelete onConfirm={() => deleteWeight(cell.value)} />
+            <ButtonDelete
+              onConfirm={() => {
+                deleteWeight(cell.value);
+                addToast();
+              }}
+            />
           </div>
         ),
       },
     ],
-    [deleteWeight]
+    [deleteWeight, addToast]
   );
 
   const {
