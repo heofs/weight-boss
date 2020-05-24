@@ -3,17 +3,17 @@
   "name": "Weight Bosss",
   "icons": [
     {
-      "src": "logo-weightboss.svg",
+      "src": "logo.svg",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/svg"
     },
     {
-      "src": "logo-weightboss.svg",
+      "src": "logo.svg",
       "type": "image/svg",
       "sizes": "192x192"
     },
     {
-      "src": "logo-weightboss.svg",
+      "src": "logo.svg",
       "type": "image/svg",
       "sizes": "512x512"
     }
