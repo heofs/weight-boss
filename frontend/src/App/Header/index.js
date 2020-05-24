@@ -1,26 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors, sizes } from 'constants/theme';
+import { colors } from 'constants/theme';
 import { useAuth } from 'enhancers/useAuth';
 
-const Wrapper = styled.header`
-  display: flex;
-  flex-direction: column;
+import ContentWrapper from 'components/ContentWrapper';
 
-  width: 100%;
+import { ReactComponent as TextLogo } from 'images/logotext_weightboss.svg';
+import { ReactComponent as IconLogo } from 'images/logoicon_weightboss.svg';
+
+const Bar = styled.header`
+  background-color: #20232a;
+  padding: 0 1em;
+`;
+
+const Content = styled(ContentWrapper)`
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
   color: ${colors.text};
   margin-bottom: 1em;
 `;
 
-const LogOutContainer = styled.div`
-  display: flex;
-  margin: 0;
-  justify-content: flex-end;
-`;
-
 const LogOutButton = styled.a`
-  margin: 0.2em 0.5em;
-  font-size: ${sizes.textSize};
+  color: ${colors.text};
+  margin-left: auto;
+  font-size: 1em;
+  font-weight: 400;
   visibility: ${(props) => (props.visible ? 'visible' : 'hidden')};
   :hover {
     cursor: pointer;
@@ -28,20 +33,17 @@ const LogOutButton = styled.a`
   }
 `;
 
-const LogoText = styled.h1`
-  font-size: 3.3rem;
-  margin: 0;
-  font-weight: 600;
-`;
-
 const LogoWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  margin: 2rem 0;
+  align-items: center;
+
   svg {
-    height: 1.1em;
-    margin: 1em;
-    transform: rotate(-35deg);
+    height: 1em;
+    margin: 0.5em 0;
+    margin-right: 1em;
+  }
+  svg:nth-child(2) {
+    height: 1.5em;
   }
 `;
 
@@ -49,16 +51,17 @@ const Header = () => {
   const { user, signout } = useAuth();
 
   return (
-    <Wrapper>
-      <LogOutContainer>
+    <Bar>
+      <Content>
+        <LogoWrapper>
+          <IconLogo />
+          <TextLogo />
+        </LogoWrapper>
         <LogOutButton onClick={() => signout()} visible={user}>
           Log out
         </LogOutButton>
-      </LogOutContainer>
-      <LogoWrapper>
-        <LogoText>Weight Boss</LogoText>
-      </LogoWrapper>
-    </Wrapper>
+      </Content>
+    </Bar>
   );
 };
 

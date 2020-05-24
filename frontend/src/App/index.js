@@ -2,35 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from 'enhancers/useAuth';
 import styled from 'styled-components';
 
-import { colors, device } from 'constants/theme';
+import { colors } from 'constants/theme';
+
+import LoadingPage from 'components/LoadingPage';
+import ContentWrapper from 'components/ContentWrapper';
 
 import Header from './Header';
 import LoginPage from './LoginPage';
 import InputForm from './InputForm';
 import Footer from './Footer';
 
-import LoadingPage from 'components/LoadingPage';
 import DataView from './DataView';
 
 import 'styles/index.scss';
 
-const Wrapper = styled.div`
+const Wrapper = styled(ContentWrapper)`
   color: ${colors.text};
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
   padding: 0 1em;
-  max-width: 90vw;
-  @media ${device.tablet} {
-    max-width: 65vw;
-  }
-  @media ${device.desktop} {
-    max-width: 55vw;
-  }
-  @media ${device.desktopLg} {
-    max-width: 40vw;
-  }
 `;
 
 const App = () => {
@@ -44,24 +36,26 @@ const App = () => {
   }, [user, isLoading]);
 
   return (
-    <Wrapper>
+    <>
       <Header />
-      {(() => {
-        if (isLoading) {
-          return <LoadingPage />;
-        }
-        if (!user) {
-          return <LoginPage />;
-        }
-        return (
-          <>
-            <InputForm />
-            <DataView />
-          </>
-        );
-      })()}
-      <Footer />
-    </Wrapper>
+      <Wrapper>
+        {(() => {
+          if (isLoading) {
+            return <LoadingPage />;
+          }
+          if (!user) {
+            return <LoginPage />;
+          }
+          return (
+            <>
+              <InputForm />
+              <DataView />
+            </>
+          );
+        })()}
+        <Footer />
+      </Wrapper>
+    </>
   );
 };
 

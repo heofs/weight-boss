@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { useAPI } from 'enhancers/useAPI';
+
 import Graph from './Graph';
 import DataTable from './DataTable';
-
-import { useAPI } from 'enhancers/useAPI';
 
 const DataView = () => {
   const { loading, weightData } = useAPI();

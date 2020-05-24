@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 
+import useWindowSize from 'enhancers/useWindowSize';
 import { useAPI } from 'enhancers/useAPI';
+import { colors } from 'constants/theme';
 
 import SubmitButton from 'App/InputForm/SubmitButton';
-import InputBox from './InputBox';
 
 import { ReactComponent as IonWeight } from 'images/icon-weight.svg';
 import { ReactComponent as IconClock } from 'images/icon-clock.svg';
 import { ReactComponent as IconCalendar } from 'images/icon-calendar.svg';
+
+import InputBox from './InputBox';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -34,13 +37,20 @@ const InputGroup = styled.div`
   }
 `;
 
+const FormText = styled.h2`
+  font-weight: 500;
+  color: ${colors.text};
+`;
+
 const InputForm = () => {
   const { addWeight } = useAPI();
   const [weight, setWeight] = useState('');
   const [dateTime, setDateTime] = useState(new Date());
+  const size = useWindowSize();
 
   return (
     <Wrapper>
+      <FormText>Add your weight</FormText>
       <FlexRow>
         <InputGroup>
           <IonWeight />
@@ -58,9 +68,9 @@ const InputForm = () => {
           <IconCalendar />
           <DatePicker
             selected={dateTime}
-            onChange={(dateTime) => setDateTime(dateTime)}
+            onChange={(dt) => setDateTime(dt)}
             customInput={<InputBox />}
-            withPortal={true}
+            withPortal={size.width < 405}
             dateFormat="dd/MM/yy"
             todayButton="Today"
           />
@@ -69,14 +79,13 @@ const InputForm = () => {
           <IconClock />
           <DatePicker
             selected={dateTime}
-            onChange={(dateTime) => setDateTime(dateTime)}
+            onChange={(dt) => setDateTime(dt)}
             showTimeSelect
             showTimeSelectOnly
             timeIntervals={60}
             timeCaption="Time"
             dateFormat="h:mm aa"
             customInput={<InputBox />}
-            withPortal={true}
           />
         </InputGroup>
       </FlexRow>

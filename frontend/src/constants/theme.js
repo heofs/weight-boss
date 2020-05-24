@@ -9,6 +9,7 @@ export const colors = {
   violet: '#8884d8',
   blue: 'dodgerblue',
   border: '#ced4da',
+  offWhite: '#efe8e1',
 };
 
 colors.primary = colors.turquoise;
@@ -16,7 +17,7 @@ colors.darkPrimary = colors.darkTurquoise;
 colors.secondary = colors.grey;
 colors.background = colors.dark;
 colors.danger = colors.red;
-colors.text = 'white';
+colors.text = colors.offWhite;
 colors.focus = colors.blue;
 colors.border = colors.turquoise;
 

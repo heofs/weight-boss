@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
 import { DataProvider } from 'enhancers/useAPI';
 import { AuthProvider } from 'utils/authentication';
 import { ToastProvider } from 'react-toast-notifications';
 
 import Snack from 'components/SnackBar';
+import App from './App';
+
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <AuthProvider>

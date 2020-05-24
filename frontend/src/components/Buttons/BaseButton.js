@@ -25,4 +25,5 @@ export default styled.button`
   :active {
     background-color: #499dab;
   }
+  cursor: pointer;
 `;

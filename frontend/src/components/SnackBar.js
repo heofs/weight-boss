@@ -1,29 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { device } from 'constants/theme';
 
-import { withStyles } from '@bit/mui-org.material-ui.styles';
 import SnackbarContent from '@bit/mui-org.material-ui.snackbar-content';
 
-const styles = (theme) => ({
-  snackbar: {
-    width: '3em',
-    paddingRight: '3em',
-    margin: '0.6em 0',
-  },
-});
+const SnackBar = styled(SnackbarContent)`
+  width: 10em;
+  @media ${device.tablet} {
+    width: 3em;
+  }
+  padding-right: 3em;
+  margin: 0.6em 0;
+  max-width: 60vw;
+`;
 
-function LongTextSnackbar(props) {
-  const { classes } = props;
-
+const LongTextSnackbar = () => {
   return (
     <div>
-      <SnackbarContent className={classes.snackbar} message="Deleted weight." />
+      <SnackBar message="Deleted weight." />
     </div>
   );
-}
-
-LongTextSnackbar.propTypes = {
-  classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LongTextSnackbar);
+export default LongTextSnackbar;
