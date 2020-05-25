@@ -12,7 +12,8 @@ const Button = styled(BaseButton)`
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  margin: 2rem auto;
+  margin: 2em auto;
+  margin-bottom: 1.2em;
   padding: 0.5em 2em;
   width: 65%;
   height: 3em;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { colors, animations, sizes } from 'constants/theme';
 
 export default styled.button`
-  color: ${colors.text};
+  color: ${colors.dark};
   background: ${colors.primary};
   font-size: ${sizes.textSize};
   text-decoration: none;

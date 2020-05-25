@@ -9,7 +9,7 @@ import { ReactComponent as TextLogo } from 'images/logotext_weightboss.svg';
 import { ReactComponent as IconLogo } from 'images/logoicon_weightboss.svg';
 
 const Bar = styled.header`
-  background-color: #20232a;
+  background-color: ${colors.dark};
   padding: 0 1em;
 `;
 

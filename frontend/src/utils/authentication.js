@@ -1,13 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
-import firebase from './firebase';
+import PropTypes from 'prop-types';
+
 import localforage from 'utils/localforage';
+import firebase from './firebase';
 
 export const AuthContext = createContext();
-
-export const AuthProvider = ({ children }) => {
-  const auth = useFirebaseAuth();
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
-};
 
 function useFirebaseAuth() {
   const [user, setUser] = useState(null);
@@ -43,7 +40,7 @@ function useFirebaseAuth() {
       .signOut()
       .then(() => {
         setUser(false);
-        localforage.setItem('weightData', []);
+        localforage.clear();
       });
   };
 
@@ -66,10 +63,10 @@ function useFirebaseAuth() {
   };
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((changedUser) => {
       setLoading(false);
-      if (user) {
-        setUser(user);
+      if (changedUser) {
+        setUser(changedUser);
       } else {
         setUser(false);
       }
@@ -91,3 +88,11 @@ function useFirebaseAuth() {
     disablePersistence,
   };
 }
+
+export const AuthProvider = ({ children }) => {
+  const auth = useFirebaseAuth();
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+};
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

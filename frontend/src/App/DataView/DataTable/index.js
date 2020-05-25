@@ -9,6 +9,10 @@ import Table from './Table';
 import ButtonDelete from './ButtonDelete';
 import SortIcon from './SortIcon';
 
+const TimeCell = ({ cell }) => (
+  <span>{dayjs(cell.value).format('DD/MM/YYYY - HH:mm')}</span>
+);
+
 const DataTable = () => {
   const { deleteWeight, weightData } = useAPI();
   const { addToast } = useToasts();
@@ -23,9 +27,7 @@ const DataTable = () => {
         id: 'time',
         Header: 'Time',
         accessor: 'dateTime',
-        Cell: (props) => (
-          <span>{dayjs(props.cell.value).format('DD/MM/YYYY - HH:mm')}</span>
-        ),
+        Cell: TimeCell,
       },
       {
         Header: 'Actions',

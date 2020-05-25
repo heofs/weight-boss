@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { colors } from 'constants/theme';
 
-import LoadingPage from 'components/LoadingPage';
+import LoadingSpinner from 'components/Loaders/LoadingSpinner';
 import ContentWrapper from 'components/ContentWrapper';
 
 import Header from './Header';
@@ -41,7 +41,7 @@ const App = () => {
       <Wrapper>
         {(() => {
           if (isLoading) {
-            return <LoadingPage />;
+            return <LoadingSpinner />;
           }
           if (!user) {
             return <LoginPage />;
