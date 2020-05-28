@@ -57,8 +57,7 @@ app.post('/addWeight', async (req, res) => {
   const { weight: rawWeight, dateTime } = req.body;
 
   if (!rawWeight || !dateTime) {
-    res.status(400).send('Missing weight or date');
-    return;
+    return res.status(400).send('Missing weight or date');
   }
 
   const weight = parseFloat(rawWeight);
@@ -74,14 +73,16 @@ app.post('/addWeight', async (req, res) => {
       .add({ userId, weight, dateTime: firestoreTime });
 
     console.log('wrote: ', writeResult.id);
-    res.status(201).json({
+    return res.status(201).json({
       id: writeResult.id,
       weight,
       dateTime,
     });
   } catch (error) {
     console.log('Error detecting sentiment or saving message', error.message);
-    res.sendStatus(500);
+    return res
+      .sendStatus(500)
+      .send('Error detecting sentiment or saving message');
   }
 });
 
@@ -96,7 +97,7 @@ app.get('/getData', async (req, res) => {
       .then((snapshot) => {
         const data = [];
         if (snapshot.empty) {
-          return data;
+          return res.status(200).json(data);
         }
         snapshot.forEach((doc) => {
           const parsedDoc = doc.data();
@@ -114,7 +115,7 @@ app.get('/getData', async (req, res) => {
       });
   } catch (error) {
     console.log('Error when retrieving data: ', error.message);
-    res.sendStatus(500);
+    res.sendStatus(500).send('Error when retrieving data');
   }
 });
 
@@ -142,7 +143,7 @@ app.delete('/deleteWeight', async (req, res) => {
     });
   } catch (error) {
     console.log('Error when deleting: ', error.message);
-    res.sendStatus(500);
+    res.sendStatus(500).send('Error when deleting');
   }
 });
 
