@@ -8,7 +8,7 @@ import { colors } from 'constants/theme';
 
 import SubmitButton from 'App/InputForm/SubmitButton';
 
-import { ReactComponent as IonWeight } from 'images/icon-weight.svg';
+import { ReactComponent as IconWeight } from 'images/icon-weight.svg';
 import { ReactComponent as IconClock } from 'images/icon-clock.svg';
 import { ReactComponent as IconCalendar } from 'images/icon-calendar.svg';
 
@@ -43,17 +43,21 @@ const FormText = styled.h2`
 `;
 
 const InputForm = () => {
-  const { addWeight } = useAPI();
+  const { addWeight: postWeight } = useAPI();
   const [weight, setWeight] = useState('');
   const [dateTime, setDateTime] = useState(new Date());
   const size = useWindowSize();
+
+  const addWeight = () => {
+    return postWeight(weight, dateTime.getTime()).then(() => setWeight(''));
+  };
 
   return (
     <Wrapper>
       <FormText>Add your weight</FormText>
       <FlexRow>
         <InputGroup>
-          <IonWeight />
+          <IconWeight />
           <InputBox
             type="number"
             name="weight"
@@ -90,7 +94,7 @@ const InputForm = () => {
         </InputGroup>
       </FlexRow>
 
-      <SubmitButton addWeight={addWeight} weight={weight} dateTime={dateTime}>
+      <SubmitButton addWeight={addWeight} weight={weight}>
         Submit weight
       </SubmitButton>
     </Wrapper>

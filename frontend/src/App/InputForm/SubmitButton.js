@@ -69,13 +69,7 @@ const ErrorButton = styled(Button)`
   }
 `;
 
-const SubmitButton = ({
-  addWeight,
-  weight,
-  dateTime,
-  children,
-  ...otherProps
-}) => {
+const SubmitButton = ({ addWeight, weight, children, ...otherProps }) => {
   const [state, setState] = useState('ready');
   const [text, setText] = useState('');
 
@@ -86,7 +80,7 @@ const SubmitButton = ({
       return;
     }
     setState('loading');
-    addWeight(weight, dateTime.getTime()).then(() => {
+    addWeight().then(() => {
       setState('finished');
     });
   };
@@ -129,7 +123,6 @@ SubmitButton.propTypes = {
   children: PropTypes.string.isRequired,
   addWeight: PropTypes.func.isRequired,
   weight: PropTypes.string.isRequired,
-  dateTime: PropTypes.instanceOf(Date).isRequired,
 };
 
 export default SubmitButton;
