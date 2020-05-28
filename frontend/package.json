@@ -5,7 +5,7 @@
   "private": false,
   "dependencies": {
     "@bit/mui-org.material-ui.snackbar-content": "^4.9.10",
-    "dayjs": "^1.8.27",
+    "dayjs": "^1.8.28",
     "firebase": "^7.14.5",
     "localforage": "^1.7.3",
     "node-sass": "^4.14.1",
@@ -18,7 +18,8 @@
     "react-toast-notifications": "^2.4.0",
     "react-transition-group": "^4.4.1",
     "recharts": "^2.0.0-beta.6",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.1",
+    "trendline": "^0.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -46,7 +47,7 @@
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jest": "^23.13.1",
+    "eslint-plugin-jest": "^23.13.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.20.0",

@@ -10,8 +10,12 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import createTrend from 'trendline';
+
 import { colors } from 'constants/theme';
+
 import LinkButton from 'components/Buttons/LinkButton';
+import CustomTooltip from './CustomTooltip';
 
 const Wrapper = styled.div`
   margin-bottom: 1em;
@@ -59,36 +63,41 @@ const Graph = () => {
   );
 
   const weights = weightData.map((data) => data.weight);
-  const yMax = Math.max(...weights) + 2;
-  const yMin = Math.min(...weights) - 2;
+  const yMax = Math.max(...weights);
+  const yMin = Math.min(...weights);
   const timestamps = weightData.map((data) => data.dateTime);
   const xMax = Math.max(...timestamps);
   const xMin = Math.min(...timestamps);
+  const offset = 2;
 
   const generateTicks = (resolution, minVal, maxVal) => {
     const ticks = [];
-    const min = parseInt(minVal);
-    const max = parseInt(maxVal);
+    const min = parseInt(minVal, 10);
+    const max = parseInt(maxVal, 10);
     const diff = max - min;
 
-    const increment = parseInt(diff / resolution);
-    const incNum = increment ? increment : 1;
+    const increment = parseInt(diff / resolution, 10);
+    const incNum = increment || 1;
 
-    for (let i = min; i <= max; i = i + incNum) {
+    for (let i = min; i <= max; i += incNum) {
       ticks.push(i);
     }
     return ticks;
   };
 
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload) {
-      const message = `${payload[0].value}kg at ${dayjs(label).format(
-        'DD/MM/YY - HH:mm'
-      )}`;
-      return <div>{message}</div>;
-    }
-    return null;
-  };
+  const xTicks = useMemo(() => generateTicks(4, xMin, xMax), [xMin, xMax]);
+  const yTicks = useMemo(() => generateTicks(6, yMin - offset, yMax + offset), [
+    yMin,
+    yMax,
+  ]);
+
+  const trend = useMemo(() => createTrend(weightData, 'dateTime', 'weight'), [
+    weightData,
+  ]);
+  const trendData = [
+    { weight: trend.calcY(xMin), dateTime: xMin },
+    { weight: trend.calcY(xMax), dateTime: xMax },
+  ];
 
   useEffect(() => {
     setWeightData(filterFunction[filter](sortedData));
@@ -123,25 +132,17 @@ const Graph = () => {
         </LinkButton>
       </ButtonGroup>
       <p>{!weightData.length ? 'No Data' : message}</p>
-      <ResponsiveContainer width={'100%'} height={300}>
+      <ResponsiveContainer width="100%" height={300}>
         <LineChart
-          data={weightData}
           margin={{ top: 5, right: 30, bottom: 5, left: -20 }}
           onMouseLeave={() => setMessage('')}
         >
-          <Line
-            type="monotoneX"
-            dataKey="weight"
-            stroke={colors.violet}
-            dot={false}
-            animationDuration={400}
-          />
           <XAxis
             name="Time"
             type="number"
             dataKey="dateTime"
             domain={['dataMin', 'dataMax']}
-            ticks={useMemo(() => generateTicks(4, xMin, xMax), [xMin, xMax])}
+            ticks={xTicks}
             tickFormatter={formatXAxis}
             stroke="white"
             dy={10}
@@ -150,15 +151,36 @@ const Graph = () => {
             name="Weight"
             type="number"
             dataKey="weight"
-            domain={[yMin, yMax]}
-            ticks={useMemo(() => generateTicks(6, yMin, yMax), [yMin, yMax])}
+            domain={[yMin - offset, yMax + offset]}
+            ticks={yTicks}
             stroke="white"
             dx={-5}
           />
+
           <Tooltip
             position={{ y: -15 }}
             content={CustomTooltip}
             cursor={{ strokeWidth: 1, strokeDasharray: '1 5' }}
+          />
+          <Line
+            data={weightData}
+            type="monotoneX"
+            dataKey="weight"
+            stroke={colors.violet}
+            dot={false}
+            animationDuration={400}
+          />
+          <Line
+            id="trendline"
+            data={trendData}
+            dataKey="weight"
+            name="trendline"
+            animationDuration={400}
+            stroke="green"
+            strokeDasharray="3 5"
+            dot={false}
+            activeDot={false}
+            label={false}
           />
         </LineChart>
       </ResponsiveContainer>
