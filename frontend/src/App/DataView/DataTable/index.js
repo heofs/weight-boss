@@ -1,17 +1,14 @@
 import React from 'react';
-import dayjs from 'dayjs';
+
 import { useTable, useSortBy } from 'react-table';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useAPI } from 'enhancers/useAPI';
 import { useToasts } from 'react-toast-notifications';
 
 import Table from './Table';
-import ButtonDelete from './ButtonDelete';
 import SortIcon from './SortIcon';
-
-const TimeCell = ({ cell }) => (
-  <span>{dayjs(cell.value).format('DD/MM/YYYY - HH:mm')}</span>
-);
+import TimeCell from './Cells/TimeCell';
+import deleteCell from './Cells/DeleteCell';
 
 const DataTable = () => {
   const { deleteWeight, weightData } = useAPI();
@@ -33,20 +30,7 @@ const DataTable = () => {
         Header: 'Actions',
         accessor: 'id',
         disableSortBy: true,
-        Cell: ({ cell }) => (
-          <div
-            style={{
-              textAlign: 'center',
-            }}
-          >
-            <ButtonDelete
-              onConfirm={() => {
-                deleteWeight(cell.value);
-                addToast();
-              }}
-            />
-          </div>
-        ),
+        Cell: deleteCell(deleteWeight, addToast),
       },
     ],
     [deleteWeight, addToast]
@@ -63,6 +47,7 @@ const DataTable = () => {
       columns,
       data: weightData,
       initialState: { sortBy: [{ id: 'time', desc: true }] },
+      autoResetSortBy: false,
     },
     useSortBy
   );
@@ -71,6 +56,7 @@ const DataTable = () => {
     <Table {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
+          // eslint-disable-next-line
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
               <th
@@ -80,6 +66,7 @@ const DataTable = () => {
                   column.toggleSortBy(!column.isSortedDesc, false)
                 }
                 valign="middle"
+                key={column.id}
               >
                 {column.render('Header')}
                 {column.canSort && !column.isSorted && <SortIcon />}
@@ -109,6 +96,7 @@ const DataTable = () => {
               >
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => (
+                    // eslint-disable-next-line
                     <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   ))}
                 </tr>

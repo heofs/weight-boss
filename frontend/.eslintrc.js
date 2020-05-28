@@ -9,6 +9,7 @@ module.exports = {
     'plugin:jest/recommended',
   ],
   rules: {
+    'prettier/prettier': 'error',
     // 'new-cap': [2, { capIsNewExceptions: ['List', 'Map', 'Set'] }],
     // 'import/default': 0,
     // 'import/no-duplicates': 0,
@@ -24,7 +25,7 @@ module.exports = {
     // 'react/no-multi-comp': 0,
     'react/jsx-props-no-spreading': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'prettier/prettier': 'error',
+    'react/jsx-curly-newline': 0,
   },
   parserOptions: {
     sourceType: 'module',

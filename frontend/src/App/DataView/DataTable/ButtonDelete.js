@@ -9,6 +9,7 @@ const Button = styled.button`
   background: none;
   border: none;
   height: 3em;
+  cursor: pointer;
   svg {
     padding: 0;
     margin: 0;
