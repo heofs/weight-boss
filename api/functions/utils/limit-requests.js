@@ -17,13 +17,16 @@ const limitRequests = async (req, res, next) => {
     // Add request to db
     admin
       .firestore()
+      .collection('users')
+      .doc(userId)
       .collection('requests')
-      .add({ userId, dateTime: admin.firestore.Timestamp.now() });
+      .add({ dateTime: admin.firestore.Timestamp.now() });
 
     await admin
       .firestore()
+      .collection('users')
+      .doc(userId)
       .collection('requests')
-      .where('userId', '==', userId)
       .where('dateTime', '>', queryTime)
       .get()
       .then((snapshot) => {
@@ -44,7 +47,7 @@ const limitRequests = async (req, res, next) => {
       });
   } catch (error) {
     console.log('Error: ', error.message);
-    res.status(429).send('Too many requests');
+    return res.status(429).send('Too many requests');
   }
 };
 

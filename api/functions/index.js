@@ -67,9 +67,12 @@ app.post('/addWeight', async (req, res) => {
   try {
     const writeResult = await admin
       .firestore()
-      .collection('data')
-      .add({ userId, weight, dateTime: firestoreTime });
+      .collection('users')
+      .doc(userId)
+      .collection('weights')
+      .add({ weight, dateTime: firestoreTime });
 
+    console.log(writeResult);
     console.log('wrote: ', writeResult.id);
     return res.status(201).json({
       id: writeResult.id,
@@ -89,8 +92,9 @@ app.get('/getData', async (req, res) => {
   try {
     await admin
       .firestore()
-      .collection('data')
-      .where('userId', '==', userId)
+      .collection('users')
+      .doc(userId)
+      .collection('weights')
       .get()
       .then((snapshot) => {
         const data = [];
@@ -124,19 +128,16 @@ app.delete('/deleteWeight', async (req, res) => {
   try {
     const docRef = await admin
       .firestore()
-      .collection('data')
+      .collection('users')
+      .doc(userId)
+      .collection('weights')
       .doc(targetDocId)
       .get();
     const docData = docRef.data();
 
-    const targetDocUid = docData.userId;
-    if (userId !== targetDocUid) {
-      throw new Error('You dont have permission to delete this.');
-    }
-
     docRef.ref.delete();
 
-    res.status(201).json({
+    return res.status(202).json({
       id: docData.id,
     });
   } catch (error) {
