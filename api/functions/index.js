@@ -18,8 +18,7 @@ const authenticate = async (req, res, next) => {
     !req.headers.authorization.startsWith('Bearer ')
   ) {
     console.count('NO AUTH HEADERS FOUND');
-    res.status(403).send('Unauthorized');
-    return;
+    return res.status(403).send('Unauthorized: No auth headers found.');
   }
   const idToken = req.headers.authorization.split('Bearer ')[1];
   try {
@@ -34,15 +33,14 @@ const authenticate = async (req, res, next) => {
       });
   } catch (e) {
     console.log(e);
-    res.status(403).send('Unauthorized');
-    return;
+    return res.status(403).send('Unauthorized');
   }
 };
 
 app.use(cors);
 
 app.get('/status', async (req, res) => {
-  res.status(201).json({
+  res.status(200).json({
     status: 'OK',
   });
 });
@@ -115,7 +113,7 @@ app.get('/getData', async (req, res) => {
       });
   } catch (error) {
     console.log('Error when retrieving data: ', error.message);
-    res.sendStatus(500).send('Error when retrieving data');
+    return res.sendStatus(500).send('Error when retrieving data');
   }
 });
 
@@ -143,7 +141,7 @@ app.delete('/deleteWeight', async (req, res) => {
     });
   } catch (error) {
     console.log('Error when deleting: ', error.message);
-    res.sendStatus(500).send('Error when deleting');
+    return res.sendStatus(500).send('Error when deleting');
   }
 });
 
