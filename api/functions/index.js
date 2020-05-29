@@ -32,7 +32,7 @@ const authenticate = async (req, res, next) => {
         return;
       });
   } catch (e) {
-    console.log(e);
+    console.log('Error: ', e);
     return res.status(403).send('Unauthorized');
   }
 };
@@ -46,9 +46,7 @@ app.get('/status', async (req, res) => {
 });
 
 app.use(authenticate);
-if (!process.env.NODE_ENV === 'dev') {
-  app.use(limitRequests);
-}
+app.use(limitRequests);
 
 app.post('/addWeight', async (req, res) => {
   const userId = req.user.uid;
@@ -72,7 +70,6 @@ app.post('/addWeight', async (req, res) => {
       .collection('weights')
       .add({ weight, dateTime: firestoreTime });
 
-    console.log(writeResult);
     console.log('wrote: ', writeResult.id);
     return res.status(201).json({
       id: writeResult.id,

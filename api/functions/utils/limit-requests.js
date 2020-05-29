@@ -20,7 +20,7 @@ const limitRequests = async (req, res, next) => {
       .collection('users')
       .doc(userId)
       .collection('requests')
-      .add({ dateTime: admin.firestore.Timestamp.now() });
+      .add({ dateTime: admin.firestore.Timestamp.now(), action: req.url });
 
     await admin
       .firestore()
@@ -43,7 +43,7 @@ const limitRequests = async (req, res, next) => {
         return;
       })
       .catch((err) => {
-        console.log('Error getting documents', err);
+        console.log('Error getting documents: ', err);
       });
   } catch (error) {
     console.log('Error: ', error.message);
