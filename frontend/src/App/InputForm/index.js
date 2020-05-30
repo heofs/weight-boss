@@ -45,7 +45,8 @@ const FormText = styled.h2`
 const InputForm = () => {
   const { addWeight: postWeight } = useAPI();
   const [weight, setWeight] = useState('');
-  const [dateTime, setDateTime] = useState(new Date());
+  const dateNow = new Date();
+  const [dateTime, setDateTime] = useState(dateNow);
   const size = useWindowSize();
 
   const addWeight = () => {
@@ -77,6 +78,7 @@ const InputForm = () => {
             withPortal={size.width < 405}
             dateFormat="dd/MM/yy"
             todayButton="Today"
+            maxDate={dateNow}
           />
         </InputGroup>
         <InputGroup>
