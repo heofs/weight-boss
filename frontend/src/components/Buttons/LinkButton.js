@@ -29,7 +29,7 @@ const Button = styled.button`
   }
 
   :disabled {
-    color: ${colors.darkBeige};
+    color: ${colors.darkSecondary};
     font-weight: bold;
     pointer-events: none;
   }

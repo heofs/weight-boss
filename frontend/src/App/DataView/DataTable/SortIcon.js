@@ -13,10 +13,12 @@ const Icon = styled.span`
     height: 1em;
     padding: 0 1em;
     .arrow-up {
-      fill: ${(props) => (props.sort === 'up' ? colors.grey : colors.dark)};
+      fill: ${(props) =>
+        props.sort === 'up' ? colors.dark : colors.lightGrey};
     }
     .arrow-down {
-      fill: ${(props) => (props.sort === 'down' ? colors.grey : colors.dark)};
+      fill: ${(props) =>
+        props.sort === 'down' ? colors.dark : colors.lightGrey};
     }
   }
 `;
@@ -29,6 +31,10 @@ const SortIcon = ({ sort }) => (
 
 SortIcon.propTypes = {
   sort: PropTypes.string,
+};
+
+SortIcon.defaultProps = {
+  sort: 'none',
 };
 
 export default SortIcon;

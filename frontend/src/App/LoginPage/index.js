@@ -11,7 +11,7 @@ import { reducer, initialState } from './login-reducer';
 
 const Wrapper = styled.div`
   color: black;
-  background-color: ${colors.beige};
+  background-color: ${colors.secondary};
   width: 15em;
   display: flex;
   flex-direction: column;

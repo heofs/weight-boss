@@ -4,8 +4,9 @@ export const colors = {
   red: '#dc3545',
   beige: `#e5daca`,
   darkBeige: `#d6c6ae`,
-  grey: '#7395AE',
-  dark: '#20232a',
+  dark: '#1E1E1E',
+  grey: '#3b3b3b',
+  lightGrey: '#CBCBCB',
   violet: '#8884d8',
   blue: 'dodgerblue',
   border: '#ced4da',
@@ -14,8 +15,10 @@ export const colors = {
 
 colors.primary = colors.turquoise;
 colors.darkPrimary = colors.darkTurquoise;
-colors.secondary = colors.grey;
+colors.secondary = colors.beige;
+colors.darkSecondary = colors.darkBeige;
 colors.background = colors.dark;
+colors.lightBackground = colors.grey;
 colors.danger = colors.red;
 colors.text = colors.offWhite;
 colors.focus = colors.blue;

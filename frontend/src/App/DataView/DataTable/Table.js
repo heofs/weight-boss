@@ -9,9 +9,9 @@ const Table = styled.table`
   font-weight: 500;
 
   tr {
-    background: ${colors.beige};
+    background: ${colors.secondary};
     :nth-child(even) {
-      background: ${colors.darkBeige};
+      background: ${colors.darkSecondary};
     }
     :last-child {
       td {
