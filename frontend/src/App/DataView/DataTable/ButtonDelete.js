@@ -10,16 +10,17 @@ const Button = styled.button`
   border: none;
   height: 3em;
   cursor: pointer;
+  :hover {
+    svg {
+      height: 2.3em;
+      transition: all ${animations.speed} ease 0s;
+    }
+  }
   svg {
     padding: 0;
     margin: 0;
     height: 2em;
     transition: all ${animations.speed} ease-in 0s;
-
-    :hover {
-      height: 2.3em;
-      transition: all ${animations.speed} ease 0s;
-    }
   }
 `;
 
