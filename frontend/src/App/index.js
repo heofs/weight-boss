@@ -8,7 +8,7 @@ import LoadingSpinner from 'components/Loaders/LoadingSpinner';
 import ContentWrapper from 'components/ContentWrapper';
 
 import Header from './Header';
-import LoginPage from './LoginPage';
+import FrontPage from './FrontPage';
 import InputForm from './InputForm';
 import Footer from './Footer';
 
@@ -44,7 +44,7 @@ const App = () => {
             return <LoadingSpinner />;
           }
           if (!user) {
-            return <LoginPage />;
+            return <FrontPage />;
           }
           return (
             <>

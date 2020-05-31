@@ -18,7 +18,6 @@ const Content = styled(ContentWrapper)`
   align-items: center;
   margin: 0 auto;
   color: ${colors.text};
-  margin-bottom: 1em;
 `;
 
 const LogOutButton = styled.a`

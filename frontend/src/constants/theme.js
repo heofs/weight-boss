@@ -13,8 +13,9 @@ export const colors = {
   offWhite: '#efe8e1',
 };
 
-colors.primary = colors.turquoise;
-colors.darkPrimary = colors.darkTurquoise;
+colors.primary = '#26547C';
+colors.darkPrimary = '#1E4363';
+colors.textPrimary = '#FFFFFF';
 colors.secondary = colors.beige;
 colors.darkSecondary = colors.darkBeige;
 colors.background = colors.dark;
@@ -22,7 +23,7 @@ colors.lightBackground = colors.grey;
 colors.danger = colors.red;
 colors.text = colors.offWhite;
 colors.focus = colors.blue;
-colors.border = colors.turquoise;
+colors.border = colors.primary;
 
 export const sizes = {
   textSize: '1.2rem',

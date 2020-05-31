@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   visibility: ${(props) => (props.visible ? 'visible' : 'hidden')};
+  margin-bottom: 1em;
 `;
 
 const LoaderDot = styled.span`

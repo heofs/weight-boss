@@ -1,16 +1,21 @@
 import styled from 'styled-components';
 import { device } from 'constants/theme';
 
+export const contentWidthXs = '90vw';
+export const contentWidthTablet = '700px';
+export const contentWidthDesktop = '750px';
+export const contentWidthDesktopLg = '800px';
+
 const Wrapper = styled.div`
-  max-width: 90vw;
+  max-width: ${contentWidthXs};
   @media ${device.tablet} {
-    max-width: 65vw;
+    width: ${contentWidthTablet};
   }
   @media ${device.desktop} {
-    max-width: 55vw;
+    width: ${contentWidthDesktop};
   }
   @media ${device.desktopLg} {
-    max-width: 40vw;
+    width: ${contentWidthDesktopLg};
   }
 `;
 

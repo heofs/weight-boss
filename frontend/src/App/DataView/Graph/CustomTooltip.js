@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 
+const roundNumber = (num) => Math.round((num + Number.EPSILON) * 100) / 100;
+
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload) {
-    const message = `${payload[0].value}kg at ${dayjs(label).format(
+    const message = `${roundNumber(payload[0].value)}kg at ${dayjs(label).format(
       'DD/MM/YY - HH:mm'
     )}`;
-    return <div>{message}</div>;
+
+    return <p>{message}</p>;
   }
   return null;
 };

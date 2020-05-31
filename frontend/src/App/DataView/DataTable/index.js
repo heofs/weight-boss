@@ -36,13 +36,7 @@ const DataTable = () => {
     [deleteWeight, addToast]
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data: weightData,
@@ -62,8 +56,7 @@ const DataTable = () => {
               <th
                 {...column.getHeaderProps(column.getSortByToggleProps())}
                 onClick={() =>
-                  column.canSort &&
-                  column.toggleSortBy(!column.isSortedDesc, false)
+                  column.canSort && column.toggleSortBy(!column.isSortedDesc, false)
                 }
                 valign="middle"
                 key={column.id}

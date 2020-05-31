@@ -3,12 +3,13 @@ import { useAPI } from 'enhancers/useAPI';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import {
-  LineChart,
   Line,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  ComposedChart,
+  Area,
 } from 'recharts';
 import createTrend from 'trendline';
 
@@ -16,17 +17,7 @@ import { colors } from 'constants/theme';
 
 import LinkButton from 'components/Buttons/LinkButton';
 import CustomTooltip from './CustomTooltip';
-
-const Wrapper = styled.div`
-  margin-bottom: 1em;
-  width: 100%;
-  padding: 1em 1em;
-  height: 300px;
-  p {
-    height: 1rem;
-    margin: 0;
-  }
-`;
+import GraphWrapper from './GraphWrapper';
 
 const formatXAxis = (tickItem) => dayjs(tickItem).format('DD/MM/YY');
 
@@ -58,9 +49,7 @@ const Graph = () => {
   const [message, setMessage] = useState('');
   const [filter, setFilter] = useState('all');
   const sortedData = unsortedWeight.sort((a, b) => a.dateTime - b.dateTime);
-  const [weightData, setWeightData] = useState(
-    filterFunction[filter](sortedData)
-  );
+  const [weightData, setWeightData] = useState(filterFunction[filter](sortedData));
 
   const weights = weightData.map((data) => data.weight);
   const yMax = Math.max(...weights);
@@ -94,8 +83,9 @@ const Graph = () => {
   const trend = useMemo(() => createTrend(weightData, 'dateTime', 'weight'), [
     weightData,
   ]);
+  // "dateTime: xMin - 1" to fix hover bug on line
   const trendData = [
-    { weight: trend.calcY(xMin), dateTime: xMin },
+    { weight: trend.calcY(xMin), dateTime: xMin - 1 },
     { weight: trend.calcY(xMax), dateTime: xMax },
   ];
 
@@ -103,38 +93,30 @@ const Graph = () => {
     setWeightData(filterFunction[filter](sortedData));
   }, [filter, sortedData]);
 
+  if (weightData.length < 2) {
+    return <div>Add more weight to see graph</div>;
+  }
+
   return (
-    <Wrapper>
+    <GraphWrapper>
       <ButtonGroup>
-        <LinkButton
-          onClick={() => setFilter('last1m')}
-          disabled={filter === 'last1m'}
-        >
+        <LinkButton onClick={() => setFilter('last1m')} disabled={filter === 'last1m'}>
           Last month
         </LinkButton>
-        <LinkButton
-          onClick={() => setFilter('last3m')}
-          disabled={filter === 'last3m'}
-        >
+        <LinkButton onClick={() => setFilter('last3m')} disabled={filter === 'last3m'}>
           Last 3 months
         </LinkButton>
-        <LinkButton
-          onClick={() => setFilter('last1y')}
-          disabled={filter === 'last1y'}
-        >
+        <LinkButton onClick={() => setFilter('last1y')} disabled={filter === 'last1y'}>
           Last year
         </LinkButton>
-        <LinkButton
-          onClick={() => setFilter('all')}
-          disabled={filter === 'all'}
-        >
+        <LinkButton onClick={() => setFilter('all')} disabled={filter === 'all'}>
           Show all
         </LinkButton>
       </ButtonGroup>
       <p>{!weightData.length ? 'No Data' : message}</p>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart
-          margin={{ top: 5, right: 30, bottom: 5, left: -20 }}
+      <ResponsiveContainer>
+        <ComposedChart
+          margin={{ top: 5, bottom: 5, left: -20 }}
           onMouseLeave={() => setMessage('')}
         >
           <XAxis
@@ -157,34 +139,31 @@ const Graph = () => {
             dx={-5}
           />
 
-          <Tooltip
-            position={{ y: -15 }}
-            content={CustomTooltip}
-            cursor={{ strokeWidth: 1, strokeDasharray: '1 5' }}
-          />
-          <Line
+          <Tooltip position={{ y: -15 }} content={CustomTooltip} />
+          <Area
             data={weightData}
             type="monotoneX"
             dataKey="weight"
             stroke={colors.violet}
             dot={false}
             animationDuration={400}
+            fill="#606060"
           />
-          <Line
-            id="trendline"
-            data={trendData}
-            dataKey="weight"
-            name="trendline"
-            animationDuration={400}
-            stroke="green"
-            strokeDasharray="3 5"
-            dot={false}
-            activeDot={false}
-            label={false}
-          />
-        </LineChart>
+
+          {weightData.length > 2 && (
+            <Line
+              data={trendData}
+              dataKey="weight"
+              animationDuration={400}
+              stroke={colors.text}
+              strokeDasharray="3 4"
+              dot={false}
+              activeDot={false}
+            />
+          )}
+        </ComposedChart>
       </ResponsiveContainer>
-    </Wrapper>
+    </GraphWrapper>
   );
 };
 
