@@ -36,13 +36,7 @@ const DataTable = () => {
     [deleteWeight, addToast]
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data: weightData,
@@ -52,33 +46,40 @@ const DataTable = () => {
     useSortBy
   );
 
+  const displaySortIcon = (column) => {
+    if (!column.canSort) {
+      return null;
+    }
+    if (!column.isSorted) {
+      return <SortIcon />;
+    }
+    if (column.isSorted) {
+      return (
+        <span>
+          {column.isSortedDesc ? <SortIcon sort="down" /> : <SortIcon sort="up" />}
+        </span>
+      );
+    }
+    return null;
+  };
+
   return (
     <Table {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => (
-          // eslint-disable-next-line
+          // eslint-disable-next-line react/jsx-key
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
               <th
                 {...column.getHeaderProps(column.getSortByToggleProps())}
                 onClick={() =>
-                  column.canSort &&
-                  column.toggleSortBy(!column.isSortedDesc, false)
+                  column.canSort && column.toggleSortBy(!column.isSortedDesc, false)
                 }
                 valign="middle"
                 key={column.id}
               >
                 {column.render('Header')}
-                {column.canSort && !column.isSorted && <SortIcon />}
-                {column.canSort && column.isSorted && (
-                  <span>
-                    {column.isSortedDesc ? (
-                      <SortIcon sort="down" />
-                    ) : (
-                      <SortIcon sort="up" />
-                    )}
-                  </span>
-                )}
+                {displaySortIcon(column)}
               </th>
             ))}
           </tr>
@@ -96,7 +97,7 @@ const DataTable = () => {
               >
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => (
-                    // eslint-disable-next-line
+                    // eslint-disable-next-line react/jsx-key
                     <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                   ))}
                 </tr>
