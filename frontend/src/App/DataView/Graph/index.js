@@ -2,20 +2,15 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useAPI } from 'enhancers/useAPI';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import createTrend from 'trendline';
 
 import { colors } from 'constants/theme';
 
 import LinkButton from 'components/Buttons/LinkButton';
 import CustomTooltip from './CustomTooltip';
+
+import { generateTicksX, generateTicksY } from './generateTicks';
 
 const Wrapper = styled.div`
   margin-bottom: 1em;
@@ -58,9 +53,7 @@ const Graph = () => {
   const [message, setMessage] = useState('');
   const [filter, setFilter] = useState('all');
   const sortedData = unsortedWeight.sort((a, b) => a.dateTime - b.dateTime);
-  const [weightData, setWeightData] = useState(
-    filterFunction[filter](sortedData)
-  );
+  const [weightData, setWeightData] = useState(filterFunction[filter](sortedData));
 
   const weights = weightData.map((data) => data.weight);
   const yMax = Math.max(...weights);
@@ -70,23 +63,8 @@ const Graph = () => {
   const xMin = Math.min(...timestamps);
   const offset = 2;
 
-  const generateTicks = (resolution, minVal, maxVal) => {
-    const ticks = [];
-    const min = parseInt(minVal, 10);
-    const max = parseInt(maxVal, 10);
-    const diff = max - min;
-
-    const increment = parseInt(diff / resolution, 10);
-    const incNum = increment || 1;
-
-    for (let i = min; i <= max; i += incNum) {
-      ticks.push(i);
-    }
-    return ticks;
-  };
-
-  const xTicks = useMemo(() => generateTicks(4, xMin, xMax), [xMin, xMax]);
-  const yTicks = useMemo(() => generateTicks(6, yMin - offset, yMax + offset), [
+  const xTicks = useMemo(() => generateTicksX(4, xMin, xMax), [xMin, xMax]);
+  const yTicks = useMemo(() => generateTicksY(6, yMin - offset, yMax + offset), [
     yMin,
     yMax,
   ]);
@@ -94,8 +72,10 @@ const Graph = () => {
   const trend = useMemo(() => createTrend(weightData, 'dateTime', 'weight'), [
     weightData,
   ]);
+
+  // "dateTime: xMin - 1" to fix hover bug on line
   const trendData = [
-    { weight: trend.calcY(xMin), dateTime: xMin },
+    { weight: trend.calcY(xMin), dateTime: xMin - 1 },
     { weight: trend.calcY(xMax), dateTime: xMax },
   ];
 
@@ -106,28 +86,16 @@ const Graph = () => {
   return (
     <Wrapper>
       <ButtonGroup>
-        <LinkButton
-          onClick={() => setFilter('last1m')}
-          disabled={filter === 'last1m'}
-        >
+        <LinkButton onClick={() => setFilter('last1m')} disabled={filter === 'last1m'}>
           Last month
         </LinkButton>
-        <LinkButton
-          onClick={() => setFilter('last3m')}
-          disabled={filter === 'last3m'}
-        >
+        <LinkButton onClick={() => setFilter('last3m')} disabled={filter === 'last3m'}>
           Last 3 months
         </LinkButton>
-        <LinkButton
-          onClick={() => setFilter('last1y')}
-          disabled={filter === 'last1y'}
-        >
+        <LinkButton onClick={() => setFilter('last1y')} disabled={filter === 'last1y'}>
           Last year
         </LinkButton>
-        <LinkButton
-          onClick={() => setFilter('all')}
-          disabled={filter === 'all'}
-        >
+        <LinkButton onClick={() => setFilter('all')} disabled={filter === 'all'}>
           Show all
         </LinkButton>
       </ButtonGroup>

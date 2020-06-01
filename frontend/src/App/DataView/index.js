@@ -9,6 +9,13 @@ import DataTable from './DataTable';
 const DataView = () => {
   const { loading, isFetching, weightData } = useAPI();
 
+  const displayGraph = () => {
+    if (weightData.length > 1) {
+      return <Graph height={300} width={500} />;
+    }
+    return <p>Add more weight to display graph</p>;
+  };
+
   if (loading) {
     return <LoadingText>Loading</LoadingText>;
   }
@@ -20,7 +27,7 @@ const DataView = () => {
   return (
     <>
       <LoadingText visible={isFetching}>Getting latest data</LoadingText>
-      <Graph height={300} width={500} />
+      {displayGraph()}
       <DataTable />
     </>
   );
