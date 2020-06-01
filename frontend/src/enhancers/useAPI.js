@@ -13,6 +13,13 @@ function useFirestoreAPI() {
   const [loading, setLoading] = useState(true);
   const [isFetching, setFetching] = useState(true);
 
+  const createHeader = (token) =>
+    new Headers({
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
   const addWeight = async (weight, dateTime) => {
     const token = await user.getIdToken();
     const addWeightUrl = `${baseUrl}/addWeight`;
@@ -21,11 +28,7 @@ function useFirestoreAPI() {
     return fetch(addWeightUrl, {
       method: 'POST',
       mode,
-      headers: new Headers({
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      }),
+      headers: createHeader(token),
       body: JSON.stringify(bodyData),
     }).then(async (res) => {
       const json = await res.json();
@@ -38,18 +41,12 @@ function useFirestoreAPI() {
     setWeightData(newWeightData);
     const token = await user.getIdToken();
     const deleteWeightUrl = `${baseUrl}/deleteWeight`;
-    const rawResponse = await fetch(deleteWeightUrl, {
+    return fetch(deleteWeightUrl, {
       method: 'DELETE',
       mode,
-      headers: new Headers({
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      }),
+      headers: createHeader(token),
       body: JSON.stringify({ id }),
     });
-    const data = await rawResponse.json();
-    return data;
   };
 
   useEffect(() => {
@@ -68,11 +65,7 @@ function useFirestoreAPI() {
         const rawResponse = await fetch(getDataUrl, {
           method: 'GET',
           mode,
-          headers: new Headers({
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          }),
+          headers: createHeader(token),
         });
         const data = await rawResponse.json();
 
