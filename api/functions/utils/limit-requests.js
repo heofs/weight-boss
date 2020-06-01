@@ -7,6 +7,11 @@ const minuteRange = 1;
 const limitRequests = async (req, res, next) => {
   const userId = req.user.uid;
 
+  if (process.env.NODE_ENV !== 'prod') {
+    next();
+    return;
+  }
+
   try {
     const unixNow = parseInt(new Date().getTime() / 1000);
     const queryTime = new admin.firestore.Timestamp(

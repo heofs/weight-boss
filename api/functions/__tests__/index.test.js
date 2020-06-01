@@ -5,6 +5,8 @@ const firebase = require('firebase');
 
 require('dotenv').config();
 
+const testUserUid = 'testUid';
+
 describe('API', () => {
   let idToken;
   const mockSet = jest.fn();
@@ -20,6 +22,20 @@ describe('API', () => {
   );
   const { api } = require('../index');
 
+  const purgeWeightsCollection = async () => {
+    const docs = await request(api)
+      .get('/getData')
+      .set('authorization', `Bearer ${idToken}`);
+    const promises = docs.body.map((obj) =>
+      request(api)
+        .delete('/deleteWeight')
+        .set('authorization', `Bearer ${idToken}`)
+        .set('Accept', 'application/json')
+        .send({ id: obj.id })
+    );
+    await Promise.all(promises);
+  };
+
   beforeAll(async () => {
     await firebase.initializeApp({
       apiKey: process.env.API_KEY,
@@ -28,12 +44,15 @@ describe('API', () => {
       projectId: `${process.env.PROJECT_ID}`,
       storageBucket: `${process.env.PROJECT_ID}.appspot.com`,
     });
-    const token = await admin.auth().createCustomToken('testUid');
+    const token = await admin.auth().createCustomToken(testUserUid);
     await firebase.auth().signInWithCustomToken(token);
     idToken = await firebase.auth().currentUser.getIdToken();
   });
 
-  // it("", async () => {})
+  afterAll(async () => {
+    await purgeWeightsCollection();
+  });
+
   it('should return status OK from /status', async () => {
     const res = await request(api).get('/status');
     expect(res.statusCode).toBe(200);
@@ -64,16 +83,16 @@ describe('API', () => {
     });
   });
 
-  describe.only('Inserting and deleting data', () => {
+  describe('Inserting and deleting data', () => {
     let newWeightId;
     it('should be able to insert a new weight', async () => {
       const timeStamp = Math.round(new Date().getTime() / 1000);
       const newWeight = 76.8;
       const res = await request(api)
         .post('/addWeight')
-        .send({ weight: newWeight, dateTime: timeStamp })
         .set('authorization', `Bearer ${idToken}`)
-        .set('Accept', 'application/json');
+        .set('Accept', 'application/json')
+        .send({ weight: newWeight, dateTime: timeStamp });
 
       expect(res.statusCode).toBe(201);
       expect(res.body.weight).toEqual(newWeight);
@@ -85,9 +104,9 @@ describe('API', () => {
       const timeStamp = Math.round(new Date().getTime() / 1000);
       const res = await request(api)
         .post('/addWeight')
-        .send({ dateTime: timeStamp })
         .set('authorization', `Bearer ${idToken}`)
-        .set('Accept', 'application/json');
+        .set('Accept', 'application/json')
+        .send({ dateTime: timeStamp });
 
       expect(res.statusCode).toBe(400);
     });
@@ -96,9 +115,9 @@ describe('API', () => {
       const newWeight = 76.8;
       const res = await request(api)
         .post('/addWeight')
-        .send({ weight: newWeight })
         .set('authorization', `Bearer ${idToken}`)
-        .set('Accept', 'application/json');
+        .set('Accept', 'application/json')
+        .send({ weight: newWeight });
 
       expect(res.statusCode).toBe(400);
     });
@@ -106,21 +125,50 @@ describe('API', () => {
     it('should delete given weight document when given id', async () => {
       const res = await request(api)
         .delete('/deleteWeight')
-        .send({ id: newWeightId })
         .set('authorization', `Bearer ${idToken}`)
-        .set('Accept', 'application/json');
+        .set('Accept', 'application/json')
+        .send({ id: newWeightId });
 
       expect(res.statusCode).toBe(204);
     });
   });
 
-  // describe('Getting data', () => {
+  describe('Getting data', () => {
+    beforeEach(async () => {
+      await purgeWeightsCollection();
+    });
 
-  // });
+    it('should return an empty array when no data is present', async () => {
+      const res = await request(api)
+        .get('/getData')
+        .set('authorization', `Bearer ${idToken}`)
+        .set('Accept', 'application/json');
 
-  // it("should be able to add new weight", () => {
-  //   const res = await request(api)
-  //   .get('/getData')
-  //   .set('authorization', `Bearer ${idToken}`);
-  // })
+      console.log(res.body);
+      expect(res.body).toEqual([]);
+    });
+
+    it('should return an array with data when data is present', async () => {
+      const dateTime = new Date(2010, 5, 17).getTime();
+      const weight = 76.8;
+      await request(api)
+        .post('/addWeight')
+        .set('authorization', `Bearer ${idToken}`)
+        .set('Accept', 'application/json')
+        .send({ weight, dateTime });
+
+      const res = await request(api)
+        .get('/getData')
+        .set('authorization', `Bearer ${idToken}`);
+
+      expect(res.body).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            weight,
+            dateTime,
+          }),
+        ])
+      );
+    });
+  });
 });

@@ -66,36 +66,33 @@ app.get('/getData', async (req, res) => {
         }
         snapshot.forEach((doc) => {
           const parsedDoc = doc.data();
-          const timestamp = parseInt(parsedDoc.dateTime._seconds * 1000);
+          const jsDate = parsedDoc.dateTime.toDate();
+
           data.push({
             id: doc.id,
             weight: parsedDoc.weight,
-            dateTime: timestamp,
+            dateTime: jsDate.getTime(),
           });
         });
         return res.status(200).json(data);
-      })
-      .catch((err) => {
-        console.log('Error getting documents', err);
       });
   } catch (error) {
-    console.log('Error when retrieving data: ', error.message);
-    return res.sendStatus(500).send('Error when retrieving data');
+    console.error('Unexpected error when retrieving data: ', error.message);
+    return res.sendStatus(500).send('Unexpected error');
   }
 });
 
 app.post('/addWeight', async (req, res) => {
   const userId = req.user.uid;
-  const { weight: rawWeight, dateTime } = req.body;
-  if (!rawWeight || !dateTime) {
+  const { weight: rawWeight, dateTime: timestamp } = req.body;
+
+  if (!rawWeight || !timestamp) {
     return res.status(400).send('Missing weight or date');
   }
 
   const weight = parseFloat(rawWeight);
-
-  const seconds = parseInt(dateTime / 1000);
-  const milliSeconds = parseInt(dateTime.toString().slice(-3));
-  const firestoreTime = new admin.firestore.Timestamp(seconds, milliSeconds);
+  const jsTime = new Date(timestamp);
+  const firestoreTime = admin.firestore.Timestamp.fromDate(jsTime);
 
   try {
     const writeResult = await admin
@@ -109,7 +106,7 @@ app.post('/addWeight', async (req, res) => {
     return res.status(201).json({
       id: writeResult.id,
       weight,
-      dateTime,
+      dateTime: timestamp,
     });
   } catch (error) {
     console.log('Error: ', error.message);
@@ -129,9 +126,8 @@ app.delete('/deleteWeight', async (req, res) => {
       .collection('weights')
       .doc(targetDocId)
       .get();
-    const docData = docRef.data();
 
-    docRef.ref.delete();
+    await docRef.ref.delete();
 
     return res.status(204).send();
   } catch (error) {
