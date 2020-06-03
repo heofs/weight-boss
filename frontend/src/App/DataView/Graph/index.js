@@ -73,9 +73,9 @@ const Graph = () => {
     weightData,
   ]);
 
-  // "dateTime: xMin - 1" to fix hover bug on line
+  // "dateTime: xMin - 1000" to fix hover bug on line
   const trendData = [
-    { weight: trend.calcY(xMin), dateTime: xMin - 1 },
+    { weight: trend.calcY(xMin), dateTime: xMin - 1000 },
     { weight: trend.calcY(xMax), dateTime: xMax },
   ];
 
