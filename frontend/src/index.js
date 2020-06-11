@@ -13,11 +13,7 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <AuthProvider>
     <DataProvider>
-      <ToastProvider
-        autoDismiss
-        placement="bottom-right"
-        components={{ Toast: Snack }}
-      >
+      <ToastProvider autoDismiss placement="bottom-right" components={{ Toast: Snack }}>
         <App />
       </ToastProvider>
     </DataProvider>
