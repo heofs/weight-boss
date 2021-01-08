@@ -7,7 +7,7 @@
     "@bit/mui-org.material-ui.snackbar-content": "^4.9.10",
     "babel-plugin-styled-components": "^1.10.7",
     "dayjs": "^1.8.28",
-    "firebase": "^7.14.6",
+    "firebase": "^8.2.2",
     "localforage": "^1.7.3",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
