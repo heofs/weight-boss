@@ -32,7 +32,7 @@
     "eslint-plugin-promise": "latest",
     "firebase": "^7.14.6",
     "firebase-functions-test": "latest",
-    "jest": "^26.0.1",
+    "jest": "^27.0.3",
     "npm-watch": "^0.6.0",
     "supertest": "^4.0.2"
   },
